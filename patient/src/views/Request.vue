@@ -59,7 +59,7 @@
 
           <div class="form-group">
             <label for="lname">Date of Exposure</label>
-            <input type="date" id="lname" v-model="newPatient.expdate" required>
+            <input type="date" id="lname" v-model="newPatient.expdate" :max="getCurrentDate()" required>
           </div>
 
           <div class="form-group">
@@ -115,7 +115,7 @@
             <input type="text" id="email" v-model="newPatient.expsite" required>
           </div>
           <div class="form-group">
-            <label for="mname">Was Wound Washed?</label>
+            <label for="mname">Wash</label>
             <select id="mname" v-model="newPatient.wash" required>
               <option value="1">Yes</option>
               <option value="0">No</option>
@@ -214,14 +214,12 @@ import axios from 'axios';
         return date.toLocaleDateString('en-US', options);
       },
       getCurrentDate() {
-        const now = new Date();
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-        const month = monthNames[now.getMonth()];
-        const day = now.getDate();
-        const year = now.getFullYear();
-        return `${month} ${day}, ${year}`;
-      },
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0'); // Add leading zero if needed
+      const day = String(now.getDate()).padStart(2, '0'); // Add leading zero if needed
+      return `${year}-${month}-${day}`; // Format: YYYY-MM-DD
+    },
       getFutureDate(days) {
         const now = new Date();
         const futureDate = new Date(now.setDate(now.getDate() + days));

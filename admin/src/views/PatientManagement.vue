@@ -396,7 +396,7 @@ hr {
 
 .title-container {
   display: flex;
-  align-items: center;
+  padding: 20px
 }
 
 .title-container i {
@@ -410,6 +410,8 @@ hr {
 .table-container {
   overflow-x: auto;
   text-align: center;
+  border-style: solid;
+  border-color: #169d53;
 }
 
 .form-columns {

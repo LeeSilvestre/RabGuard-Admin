@@ -73,8 +73,8 @@ export default {
   overflow-y: hidden;
   overflow-x: hidden;
   font-family: var(--font-family);
-  border-top-right-radius: 15px ;
-  border-bottom-right-radius: 15px;
+  /* border-top-right-radius: 15px ;
+  border-bottom-right-radius: 15px; */
   
 }
 

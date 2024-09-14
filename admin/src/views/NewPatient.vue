@@ -439,6 +439,10 @@ flex-direction: column;
 margin-right: 10px;
 }
 
+.content{
+  margin-top: 50px;
+}
+
 .patient-image {
 width: 100%; /* Make the image fill its container */
 height: auto; /* Maintain aspect ratio */
@@ -573,6 +577,7 @@ font-family: 'Product Sans', sans-serif;
 display: flex;
 align-items: center;
 font-family: 'Product Sans', sans-serif;
+padding: 20px;
 }
 
 .title-container i {

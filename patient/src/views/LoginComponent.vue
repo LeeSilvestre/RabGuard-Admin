@@ -561,7 +561,7 @@ th, td {
   text-decoration: none;
   opacity: 90%;
   margin-right: 40px;
-  width: 50%;
+  width: 40%;
 
 }
 
@@ -581,7 +581,7 @@ opacity: 100%;
   text-decoration: none;
   opacity: 90%;
   margin-right: 40px;
-  width: 30%;
+  width: 40%;
 
 }
 

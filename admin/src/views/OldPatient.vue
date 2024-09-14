@@ -10,7 +10,7 @@
   <div class="patients-list-container">
     <div class="title-container">
     </div>
-    <div v-if="filteredPatients.length === 0">
+    <div class="content" v-if="filteredPatients.length === 0">
       No data to show
     </div>
     <div v-else class="patients-container">
@@ -353,6 +353,10 @@ import axios from 'axios';
   margin: 0.5rem;
   padding-top: 2%;
   position: relative;
+}
+
+.content{
+  margin-top: 50px;
 }
 
 .old {

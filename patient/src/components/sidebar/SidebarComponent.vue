@@ -40,10 +40,13 @@ export default {
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 :root {
   --sidebar-bg-color: #188754;
-  --sidebar-item-hover: #188754;
-  --sidebar-item-active: #0a4d2c; /* Different color for active state */
+  --sidebar-item-hover: #157347;
+  --sidebar-item-active: #145c3d;
+  --font-family: 'Montserrat', sans-serif;
 }
 
 .sidebar {
@@ -62,8 +65,9 @@ export default {
   overflow-y: hidden;
   overflow-x: hidden;
   font-family: var(--font-family);
-  border-top-right-radius: 15px ;
-  border-bottom-right-radius: 15px;
+  /* border-top-right-radius: 15px ;
+  border-bottom-right-radius: 15px; */
+  
 }
 
 .logo-container {
@@ -99,10 +103,6 @@ export default {
 
 .sidebar-link:hover {
   background-color: var(--sidebar-item-hover);
-}
-
-.sidebar-link.router-link-active {
-  background-color: var(--sidebar-item-active); /* Use the defined variable for active state */
 }
 
 .link.active {

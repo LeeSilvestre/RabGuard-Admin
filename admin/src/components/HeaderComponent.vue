@@ -1,6 +1,6 @@
 <template>
     <header class="header-bar">
-      <i class="fas fa-columns"></i>
+        <i class="fas fa-columns"></i>
       <div class="header-content">
         <h1></h1>
         <p>{{ currentDate }}</p>
@@ -34,21 +34,22 @@
   </script>
   
   <style scoped>
+  .body{
+margin-left: 10px;
+  }
   .header-bar {
     display: flex;
     align-items: center;
     background-color: white;
     color: white;
-    padding: 5px;
+    padding: 0px;
     text-align: center;
     width: 100%;
-    max-height: fit-content;
     height: auto;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
   
-  .header-bar i {
-    margin-right: 10px;
+  .header-bar i { 
     font-size: 20px;
   }
   
@@ -56,16 +57,17 @@
     display: flex;
     justify-content: space-between;
     flex: 1;
+    padding: 16px;
   }
   
   .header-bar h1 {
-    margin: 5px;
+    margin: 0;
     font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
   
   .header-bar p {
-    margin: 5px 0 0;
+    margin: 0;
     color: gray;
     font-size: 20px;
   }

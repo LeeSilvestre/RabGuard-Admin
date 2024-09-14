@@ -97,8 +97,7 @@
 
         <br><br>
 
-        <div class="remember-me--forget-password">
-          <a href></a>
+        <div class="buttons">
           <button @click="login" class="login-button">Login</button>
           <button @click="showAddModal = true" class="login2-button">Register</button>
         </div>
@@ -524,10 +523,11 @@ th, td {
   outline: none;
   border-bottom: 2px solid #B0B3B9;
 }
-.box-form .right .remember-me--forget-password {
+.box-form .right .buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 50px;
 }
 .box-form .right .remember-me--forget-password input {
   margin: 0;
@@ -568,8 +568,7 @@ opacity: 100%;
   text-decoration: none;
   opacity: 90%;
   margin-right: 40px;
-  width: 30%;
-
+  width: 50%;
 }
 
 .login2-button:hover {
@@ -636,7 +635,6 @@ label input[type="checkbox"] {
   background: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 0 20px 6px #090b6f85;
-  padding: 20px;
   width: 100%;
   max-width: 1000px; /* Maximum width of the form */
   box-sizing: border-box; /* Ensure padding is included in width */

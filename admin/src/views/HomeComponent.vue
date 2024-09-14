@@ -114,7 +114,7 @@ body {
 
 .box-form {
   margin-top: 4.8%;
-  margin-left: 20%;
+  margin-left: 10%;
   width: 60%;
   background: #FFFFFF;
   border-radius: 10px;
@@ -184,7 +184,6 @@ body {
 .box-form .right {
   width:60%;
   padding: 40px;
-
   overflow: hidden;
 }
 @media (max-width: 980px) {
@@ -304,7 +303,6 @@ label input[type="checkbox"] {
   background: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 0 20px 6px #090b6f85;
-  padding: 20px;
   width: 100%;
   max-width: 1000px; /* Maximum width of the form */
   box-sizing: border-box; /* Ensure padding is included in width */

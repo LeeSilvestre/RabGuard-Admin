@@ -1,12 +1,14 @@
 <template>
-  <div class="box-form">
-    <div class="left">
-      <div class="overlay">
-        <img class="logo-left" src="../assets/rabguardlogo.png" alt="hi">
-        <h2 class="left-title">"Your Shield Against Rabies"</h2>
-       </div>
-    </div>
-    <div class="modal" v-if="showAddModal">
+  <div class="page-container">
+    <div class="box-form">
+      <div class="left">
+        <div class="overlay">
+          <img class="logo-left" src="../assets/rabguardlogo.png" alt="hi">
+          <h2 class="left-title">"Your Shield Against Rabies"</h2>
+        </div>
+      </div>
+
+      <div class="modal" v-if="showAddModal">
         <div class="modal-content">
           <h2>Register</h2>
           <div class="form-columns">
@@ -36,21 +38,7 @@
                   <option value="Asinan">Asinan</option>
                   <option value="Banicain">Banicain</option>
                   <option value="Barretto">Barretto</option>
-                  <option value="New Cabalan">New Cabalan</option>
-                  <option value="Old Cabalan">Old Cabalan</option>
-                  <option value="East Bajac-Bajac">East Bajac-Bajac</option>
-                  <option value="East Tapinac">East Tapinac</option>
-                  <option value="Gordon Heights">Gordon Heights</option>
-                  <option value="New Ilalim">New Ilalim</option>
-                  <option value="New Kababae">New Kababae</option>
-                  <option value="Kalaklan">Kalaklan</option>
-                  <option value="New Kalalake">New Kalalake</option>
-                  <option value="Mabayuan">Mabayuan</option>
-                  <option value="Pag-Asa">Pag-Asa</option>
-                  <option value="Sta. Rita">Sta. Rita</option>
-                  <option value="West Bajac-Bajac">West Bajac-Bajac</option>
-                  <option value="West Tapinac">West Tapinac</option>
-                  <option value="Others">Others</option>
+                  <!-- Add more options as necessary -->
                 </select>
               </div>
 
@@ -96,26 +84,25 @@
         </div>
       </div>
 
+      <div class="right">
+        <img class="logo-right" src="../assets/Logo-Health.png" alt="hi">
+        <h1>Olongapo City</h1>
+        <h2>Animal Bite Treatment Center</h2>
+        <div class="inputs">
+          <br>
+          <span><i class="fa-solid fa-lock"></i></span><input v-model="password" type="password" placeholder="Password">
+        </div>
 
-    <div class="right">
-      <img class="logo-right" src="../assets/Logo-Health.png" alt="hi">
-      <h1>Olongapo City</h1>
-      <h2>Animal Bite Treatment Center</h2>
-      <div class="inputs">
         <span><i class="fa-solid fa-envelope"></i></span><input v-model="username" type="text" placeholder="Email">
-        <br>
-        <span><i class="fa-solid fa-lock"></i></span><input v-model="password" type="password" placeholder="Password">
-      </div>
-      
 
-      <br><br>
+        <br><br>
 
-      <div class="remember-me--forget-password">
-        <a href></a>
-        <button @click="login" class="login-button">Login</button>
-        <button @click="showAddModal = true" class="login2-button">Register</button>
+        <div class="remember-me--forget-password">
+          <a href></a>
+          <button @click="login" class="login-button">Login</button>
+          <button @click="showAddModal = true" class="login2-button">Register</button>
+        </div>
       </div>
-    
     </div>
   </div>
 </template>
@@ -171,7 +158,7 @@ export default {
             }
           })
           this.setUser(user);
-          this.$router.push('/profile');
+          this.$router.push('/dashboard');
         } else {
           Swal.fire({
             icon: "error",
@@ -561,7 +548,7 @@ th, td {
   text-decoration: none;
   opacity: 90%;
   margin-right: 40px;
-  width: 40%;
+  width: 50%;
 
 }
 
@@ -581,7 +568,7 @@ opacity: 100%;
   text-decoration: none;
   opacity: 90%;
   margin-right: 40px;
-  width: 40%;
+  width: 30%;
 
 }
 
@@ -629,4 +616,46 @@ label span.text-checkbox {
 label input[type="checkbox"] {
   display: none;
 }
+/* Background image for the entire page */
+.page-container {
+  background-image: url('../assets/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  overflow: hidden; /* Remove scrollbars */
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  margin: 0; /* Remove default margin */
+}
+
+/* Styling for the form container */
+.box-form {
+  background: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 6px #090b6f85;
+  padding: 20px;
+  width: 100%;
+  max-width: 1000px; /* Maximum width of the form */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  overflow: hidden; /* Hide any overflow */
+  margin-left: 20px;
+}
+
+/* Additional style tweaks for responsiveness */
+@media (max-width: 980px) {
+  .box-form {
+    width: 90%; /* Make the form take up more of the viewport on small screens */
+  }
+}
+
+/* Ensure no scrolling on body or html */
+body, html {
+  overflow: hidden;
+  margin: 0;
+  height: 100%;
+}
+
 </style>

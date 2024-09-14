@@ -1,11 +1,12 @@
 <template>
-  <div class="box-form">
-    <div class="left">
-      <div class="overlay">
-        <img class="logo-left" src="../assets/rabguardlogo.png" alt="hi">
-        <h2 class="left-title">"Your Shield Against Rabies"</h2>
-       </div>
-    </div>
+  <div class="page-container">
+    <div class="box-form">
+      <div class="left">
+        <div class="overlay">
+          <img class="logo-left" src="../assets/rabguardlogo.png" alt="hi">
+          <h2 class="left-title">"Your Shield Against Rabies"</h2>
+        </div>
+      </div>
 
     <div class="right">
       <img class="logo-right" src="../assets/Logo-Health.png" alt="hi">
@@ -26,6 +27,7 @@
 
     
     </div>
+  </div>
   </div>
 </template>
 
@@ -282,5 +284,45 @@ label span.text-checkbox {
 
 label input[type="checkbox"] {
   display: none;
+}
+.page-container {
+  background-image: url('../assets/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  overflow: hidden; /* Remove scrollbars */
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  margin: 0; /* Remove default margin */
+}
+
+/* Styling for the form container */
+.box-form {
+  background: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 6px #090b6f85;
+  padding: 20px;
+  width: 100%;
+  max-width: 1000px; /* Maximum width of the form */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  overflow: hidden; /* Hide any overflow */
+  margin-left: 20px;
+}
+
+/* Additional style tweaks for responsiveness */
+@media (max-width: 980px) {
+  .box-form {
+    width: 90%; /* Make the form take up more of the viewport on small screens */
+  }
+}
+
+/* Ensure no scrolling on body or html */
+body, html {
+  overflow: hidden;
+  margin: 0;
+  height: 100%;
 }
 </style>

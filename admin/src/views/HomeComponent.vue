@@ -13,7 +13,7 @@
       <h1>Olongapo City</h1>
       <h2>Animal Bite Treatment Center</h2>
       <div class="inputs">
-        <span><i class="fa-solid fa-envelope"></i></span><input v-model="username" type="text" placeholder="Username">
+        <span><i class="fa-solid fa-user"></i></span><input v-model="username" type="text" placeholder="Username">
         <br>
         <span><i class="fa-solid fa-lock"></i></span><input v-model="password" type="password" placeholder="Password">
       </div>

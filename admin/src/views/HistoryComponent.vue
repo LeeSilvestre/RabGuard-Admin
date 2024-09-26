@@ -559,7 +559,7 @@ hr {
 .search-icon {
   position: absolute;
   top: 50%;
-  left: 0.75rem;
+  left: 0.50rem;
   transform: translateY(-50%);
   color: black;
   margin-left: 20px;

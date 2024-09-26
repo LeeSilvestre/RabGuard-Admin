@@ -4,46 +4,95 @@
       <h1 class="bg-title">Dashboard</h1>
       <div class="dashboard">
         <span class="text">Dashboard</span>
-        <i class="fas fa-columns"></i>
         <hr />
       </div>
     </div>
     <div class="wrapper">
-      <div class="data-container">
-        <div class="patient-info">
-          <div class="icon-wrapper">
-            <i class="fas fa-user-plus icon"></i>
+      <!-- Top Statistics Cards -->
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="icon-container">
+            <i class="fas fa-users"></i>
           </div>
-          <div class="text-wrapper">
-            <h2 class="patient-type">New Patient</h2>
-            <span class="patient-count">25</span>
+          <div class="text-container">
+            <h2>Total Patients</h2>
+            <span>2000+</span>
           </div>
         </div>
-        <div class="patient-info">
-          <div class="icon-wrapper">
-            <i class="fas fa-user icon"></i>
+        <div class="stat-card">
+          <div class="icon-container">
+            <i class="fas fa-user-check"></i>
           </div>
-          <div class="text-wrapper">
-            <h2 class="patient-type">Old Patient</h2>
-            <span class="patient-count">35</span>
+          <div class="text-container">
+            <h2>Today Patients</h2>
+            <span>068</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="icon-container">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="text-container">
+            <h2>Today Appointments</h2>
+            <span>085</span>
           </div>
         </div>
       </div>
-      <div class="total-patient-container">
-        <div class="total-patient-info">
-          <div class="icon-wrapper">
-            <i class="fas fa-users icon"></i>
-          </div>
-          <div class="text-wrapper">
-            <h2 class="total-patient-type">Total Patients</h2>
-            <span class="total-patient-count">60</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="chart-wrapper">
+
+      <!-- Chart and Today's Appointment section -->
       <div class="chart-container">
-        <canvas ref="dailyPatientChart"></canvas>
+        <div class="chart-and-appointments">
+          <!-- Patient summary moved to left side and chart spacing adjusted -->
+          <div class="chart-content small-chart">
+            <canvas ref="patientSummaryChart"></canvas>
+          </div>
+
+          <!-- Today's Appointments on the right side -->
+          <div class="appointment-content transparent-card">
+            <div class="card appointment-card with-border">
+    <div class="card-header transparent-header">
+      <h5 class="card-title">Today's Appointments</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patient</th>
+            <th scope="col">Place</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(appointment, index) in filteredAppointments" :key="index">
+            <th scope="row" data-label="#">{{ index + 1 + (currentPage - 1) * itemsPerPage }}</th>
+            <td data-label="Patient">{{ appointment.patient }}</td>
+            <td data-label="Place">{{ appointment.place }}</td>
+            <td data-label="Status">
+              <span class="status" :class="statusClass(appointment.status)">
+                {{ appointment.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+                <!-- Pagination with Arrow Icons -->
+                <div class="pagination">
+                  <button @click="prevPage" :disabled="currentPage === 1">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+
+                  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+                  <button @click="nextPage" :disabled="currentPage === totalPages">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -53,42 +102,98 @@
 import Chart from 'chart.js/auto';
 
 export default {
-  mounted() {
-    this.$nextTick(() => {
-      this.renderChart();
-    });
+  data() {
+    return {
+      appointments: [
+        { patient: 'Lanpher Garia', place: 'East Tapinac', status: 'On going' },
+        { patient: 'Sanath Deo', place: 'Old Cabalan', status: 'Done' },
+        { patient: 'Loeare Phanj', place: 'New Cabalan', status: 'Done' },
+        { patient: 'Komola Haris', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'John Doe', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Jane Smith', place: 'New Cabalan', status: 'Done' },
+        { patient: 'Alice Brown', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Bob White', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Charlie Green', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Eve Black', place: 'East Bajac Bajac', status: 'Done' },
+      ],
+      currentPage: 1,
+      itemsPerPage: 5,
+      searchTerm: '', // New search term for filtering
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.appointments.length / this.itemsPerPage);
+    },
+    filteredAppointments() {
+      return this.paginatedAppointments.filter(appointment =>
+        appointment.patient.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    },
+    paginatedAppointments() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.appointments.slice(start, start + this.itemsPerPage);
+    },
   },
   methods: {
-    renderChart() {
-      const dailyPatientData = [25, 40, 30, 45, 50, 50, 35];
-      const ctx = this.$refs.dailyPatientChart.getContext('2d');
+    renderCharts() {
+      this.renderPatientSummaryChart();
+    },
+    renderPatientSummaryChart() {
+      const patientData = [50, 30, 20]; // Dummy data for New, Old, and Total patients
+      const ctx = this.$refs.patientSummaryChart.getContext('2d');
       new Chart(ctx, {
-        type: 'bar',  
+        type: 'doughnut', // Pie Chart
         data: {
-          labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-          datasets: [{
-            label: 'Total Daily Patients',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-            data: dailyPatientData,
-          }]
+          labels: ['New Patients', 'Old Patients', 'Total Patients'],
+          datasets: [
+            {
+              label: 'Patients Summary',
+              backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
+              data: patientData,
+            },
+          ],
         },
         options: {
           responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              enabled: true, // Enable tooltips for chart data
+            },
+          },
+        },
       });
-    }
-  }
-}
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    statusClass(status) {
+      return {
+        'status-done': status === 'Done',
+        'status-ongoing': status === 'On going',
+      };
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.renderCharts();
+    });
+  },
+};
 </script>
 
-<style scoped>
+<style>
+/* Base styles */
 .bg-title {
   z-index: -1;
   position: absolute;
@@ -128,133 +233,255 @@ export default {
   position: relative;
 }
 
-.icon-wrapper {
+/* Stats cards */
+.stats-cards {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 30%;
-  margin-right: 20px;
-  font-size: 20px;
+  justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
-.icon {
+.stat-card {
+  display: flex;
+  align-items: center;
+  background-color: #D6F6D5;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  position: relative;
+  margin-left: 20px;
+}
+
+.icon-container {
+  margin-right: 1rem;
+  border: 2px solid #188754; /* Circular border */
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 35px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-card i {
+  font-size: 2.5rem;
+  color: white;
+}
+
+.text-container {
+  text-align: left;
+  margin-top: 5px;
+}
+
+.text-container h2 {
+  font-size: 1.2rem;
   margin-bottom: 5px;
-  background-color: #4caf50; /* Add green background */
+  font-weight: bold;
+}
+
+.text-container span {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.text-container p {
+  margin: 0;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* Chart and Appointment List in the same container */
+.chart-container {
+  background-color: #D6F6D5;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+}
+
+.chart-and-appointments {
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+  align-items: flex-start; /* Align to the top */
+}
+
+.chart-content,
+.appointment-content {
+  width: 45%;
+  height: 400px;
+}
+
+.chart-content {
+  text-align: center;
+  padding: 20px;
+  margin-right: 10px; /* Add space between the chart and the appointment section */
+}
+
+/* Appointment Card Styles */
+.appointment-card {
+  margin: 1rem 0;
+}
+/* Add border to the appointment card */
+.with-border {
+  border: 2px solid #4CAF50; /* Adjust the border color to match the theme */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional for adding shadow */
+}
+/* Header for Today's Appointments */
+.bg-header {
+  background-color: #4CAF50;
   color: white;
   padding: 10px;
-  border-radius: 5px;
-  margin-right: 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-title {
   font-size: 20px;
+  margin-top: 1px;
 }
 
-.text-wrapper {
-  width: 70%;
-  margin-right: 20px;
-  font-size: 15px;
-
-}
-
-hr {
-  flex-basis: 100%;
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 2.5rem 0 0 0;
-}
-
-.wrapper {
+/* Pagination Styles */
+.pagination {
   display: flex;
-  flex-direction: row; /* Align items horizontally */
-  justify-content: left; 
-  gap: 10px; /* Add some space between the items */
-  margin-top: 4rem; /* Add margin to lower the containers */
-  margin-left: 50px;
-}
-
-.data-container,
-.total-patient-container {
-  display: flex;
-  justify-content: left;
-  gap: 10px;
-  flex-direction: row; /* Ensure items inside are horizontal */
-}
-
-/* Styles for data-container */
-.patient-info {
-  display: flex;
-  align-items: center ;
-  padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  transition: box-shadow 0.3s; /* Add transition for hover effect */
-}
-
-.patient-info:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Change shadow effect on hover */
-}
-
-.patient-info h2.patient-type {
-  margin: auto; /* Center the patient type */
-}
-
-.patient-count {
-  margin-top: auto;
-}
-
-/* Styles for total-patient-container */
-.total-patient-info {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  transition: box-shadow 0.3s; /* Add transition for hover effect */
+  margin-top: 10px;
 }
 
-.total-patient-info:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Change shadow effect on hover */
+.pagination button {
+  padding: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s;
 }
 
-.total-patient-info h2.total-patient-type {
-  margin: auto; /* Center the patient type */
+.pagination button:hover:not(:disabled) {
+  background-color: #388E3C;
 }
 
-.total-patient-count {
-  margin-top: auto;
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-/* Styles for chart-container */
-.chart-wrapper {
+.pagination select {
+  margin-left: 10px;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Adds spacing between rows */
+
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Alternating Row Colors */
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+  background-color: #e0f7fa;
+}
+
+.small-chart {
+  width: 40%;
+}
+
+/* Transparent card for appointments */
+.transparent-card {
+  width: 55%;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* Transparent header */
+.transparent-header {
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+  border-bottom: none;
   display: flex;
-  justify-content: left;
-  margin-top: 2rem; /* Add some space above the chart container */
-  margin-left: 50px;
-  width: 100%;
-  max-width: 400%;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.chart-container {
-  padding: 10px 20px;
-  border: 1px solid #ccc;
+/* Search bar style */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar.transparent-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 8px;
+  width: 100%;
+}
+
+.search-bar.transparent-input:focus {
+  outline: none;
+  border-bottom: 2px solid #4CAF50;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #4CAF50;
+}
+
+/* Status Styles */
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  transition: box-shadow 0.3s; /* Add transition for hover effect */
-  width: 50%;
-  max-width: 400%;
-  height: auto;
-  align-items: left;
-
+  color: white;
 }
 
-.chart-container:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Change shadow effect on hover */
+.status-done {
+  background-color: #4CAF50;
 }
 
-.chart-container canvas {
-  margin: auto; /* Center the canvas */
-  width: 100%;
-  max-width: 400%;
-  align-items: left;
+.status-ongoing {
+  background-color: #FF9800;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .stats-cards {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .chart-and-appointments {
+    flex-direction: column;
+  }
+
+  .chart-content,
+  .appointment-content {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }
 </style>

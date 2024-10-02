@@ -324,13 +324,6 @@ export default {
 }
 
 /* Appointment Card Styles */
-/* Add border to the appointment card */
-.with-border {
-  border: 2px solid #4CAF50; /* Adjust the border color to match the theme */
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional for adding shadow */
-}
 /* Header for Today's Appointments */
 .bg-header {
   background-color: #4CAF50;

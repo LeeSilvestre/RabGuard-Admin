@@ -1,6 +1,6 @@
 <template>
     <div class="top-container">
-      <h1 class="bg-title">Patient Management</h1>
+      <h1 class="bg-title">Current Patient</h1>
       <div class="patient">
         <span class="text">Patients</span>
         <i class="fas fa-chart-bar"></i>
@@ -18,9 +18,7 @@
             <th>ID</th>
             <th>NAME</th>
             <th>ADDRESS</th>
-            <th>GENDER</th>
-            <th>CONTACT NUMBER</th>
-            <th>EDIT</th>
+            <th>STATUS</th>
           </tr>
         </thead>
         <tbody>

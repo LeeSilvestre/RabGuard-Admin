@@ -214,6 +214,10 @@ export default {
   position: relative;
 }
 
+.wrapper {
+  overflow-y: hidden;
+}
+
 .dashboard {
   display: flex;
   align-items: center;
@@ -298,6 +302,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 .chart-and-appointments {
@@ -306,7 +311,7 @@ export default {
   align-items: flex-start; /* Align to the top */
 }
 
-.chart-content,
+.chart-content
 .appointment-content {
   width: 45%;
   height: 400px;
@@ -319,9 +324,6 @@ export default {
 }
 
 /* Appointment Card Styles */
-.appointment-card {
-  margin: 1rem 0;
-}
 /* Add border to the appointment card */
 .with-border {
   border: 2px solid #4CAF50; /* Adjust the border color to match the theme */

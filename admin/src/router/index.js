@@ -38,9 +38,9 @@ const routes = [
     component: () => import('../views/HistoryComponent.vue')
   },
   {
-    path: '/analytics',
-    name: 'Analytics',
-    component: () => import('../views/AnalyticsComponent.vue')
+    path: '/current',
+    name: 'Current',
+    component: () => import('../views/CurrentPatient.vue')
   },
   {
     path: '/announcement',

@@ -27,8 +27,8 @@ export default {
       <SidebarLink to="/Old" icon="fas fa-user">Old Patients</SidebarLink>
       <SidebarLink to="/Queue" icon="fas fa-tasks">Queues</SidebarLink>
       <SidebarLink to="/history" icon="fas fa-history">History</SidebarLink>
-      <!-- <SidebarLink to="/analytics" icon="fas fa-chart-line">Analytics</SidebarLink>
-      <SidebarLink to="/announcement" icon="fas fa-bullhorn">Announcements</SidebarLink> -->
+       <SidebarLink to="/analytics" icon="fas fa-chart-line">Analytics</SidebarLink>
+      <SidebarLink to="/announcement" icon="fas fa-bullhorn">Announcements</SidebarLink>
     </div>
     <div class="separator"></div>
     <!-- End Middle Section -->

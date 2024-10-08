@@ -20,16 +20,17 @@ export default {
     <!-- End Top Section -->
     <!-- Middle Section: Router Links -->
     <div class="links">
-      <SidebarLink to="/dashboard" icon="fas fa-columns">Dashboard</SidebarLink>
-      <SidebarLink to="/patient" icon="fas fa-chart-bar">Patients</SidebarLink>
-      <SidebarLink to="/current" icon="fas fa-chart-bar">Current Patients</SidebarLink>
-      <SidebarLink to="/New" icon="fas fa-user-plus">New Patients</SidebarLink>
-      <SidebarLink to="/Old" icon="fas fa-user">Old Patients</SidebarLink>
-      <SidebarLink to="/Queue" icon="fas fa-tasks">Queues</SidebarLink>
-      <SidebarLink to="/history" icon="fas fa-history">History</SidebarLink>
-       <SidebarLink to="/analytics" icon="fas fa-chart-line">Analytics</SidebarLink>
-      <SidebarLink to="/announcement" icon="fas fa-bullhorn">Announcements</SidebarLink>
-    </div>
+  <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
+  <SidebarLink to="/patient" icon="fas fa-users">Patients</SidebarLink>
+  <SidebarLink to="/current" icon="fas fa-user-clock">Current Patients</SidebarLink>
+  <SidebarLink to="/new" icon="fas fa-user-plus">New Patients</SidebarLink>
+  <SidebarLink to="/old" icon="fas fa-user-check">Old Patients</SidebarLink>
+  <SidebarLink to="/queue" icon="fas fa-list-ul">Queues</SidebarLink>
+  <SidebarLink to="/history" icon="fas fa-history">History</SidebarLink>
+  <SidebarLink to="/analytics" icon="fas fa-chart-pie">Analytics</SidebarLink>
+  <SidebarLink to="/announcement" icon="fas fa-bullhorn">Announcements</SidebarLink>
+</div>
+
     <div class="separator"></div>
     <!-- End Middle Section -->
 

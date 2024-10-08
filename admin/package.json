@@ -12,13 +12,17 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.3",
     "core-js": "^3.8.3",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.7",
     "sweetalert2": "^11.11.0",
     "vue": "^3.2.13",
     "vue-router": "^4.3.2",
-    "ws": "^8.17.0"
+    "ws": "^8.17.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -41,11 +41,12 @@
       <div class="chart-appointment-container">
         <div class="chart-container">
           <div class="chart-content">
+            <h5 class="chart-title">Patient Chart</h5>
             <canvas ref="patientSummaryChart"></canvas>
           </div>
         </div>
 
-        <div class="appointment-content professional-card">
+      
           <div class="card appointment-card with-border">
             <div class="card-header professional-header">
               <h5 class="card-title">Today's Appointments</h5>
@@ -86,7 +87,6 @@
           </div>
         </div>
       </div>
-    </div>
   </main>
 </template>
 
@@ -109,9 +109,23 @@ export default {
         { patient: 'Bob White', place: 'East Bajac Bajac', status: 'Done' },
         { patient: 'Charlie Green', place: 'East Bajac Bajac', status: 'Done' },
         { patient: 'Eve Black', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Komola Haris', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'John Doe', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Jane Smith', place: 'New Cabalan', status: 'Done' },
+        { patient: 'Alice Brown', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Bob White', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Charlie Green', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Eve Black', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Komola Haris', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'John Doe', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Jane Smith', place: 'New Cabalan', status: 'Done' },
+        { patient: 'Alice Brown', place: 'New Cabalan', status: 'On going' },
+        { patient: 'Bob White', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Charlie Green', place: 'East Bajac Bajac', status: 'Done' },
+        { patient: 'Eve Black', place: 'East Bajac Bajac', status: 'Done' },
       ],
       currentPage: 1,
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       searchTerm: '', // New search term for filtering
     };
   },
@@ -241,15 +255,16 @@ export default {
 .stat-card {
   display: flex;
   align-items: center;
-  background: linear-gradient(145deg, #42a5f5, #1e88e5); /* Gradient background */
+  background: linear-gradient(145deg, #188754, #d6f6d5); /* Gradient background */
   color: white; /* White text for better contrast */
   padding: 15px;
   border-radius: 15px; /* Rounder corners for a modern look */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
   width: 30%;
   position: relative;
-  margin-left: 20px;
+  margin-left: 30px;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation for hover */
+  margin-right: 20px
 }
 
 .stat-card:hover {
@@ -268,10 +283,6 @@ export default {
   align-items: center;
 }
 
-.stat-card i {
-  font-size: 2.5rem;
-  color: white;
-}
 
 .text-container {
   text-align: left;
@@ -281,27 +292,32 @@ export default {
   font-size: 1.5rem;
   margin-bottom: 5px;
   font-weight: bold;
+  color: white;
+  margin-top: 2%;
 }
 
 .text-container span {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
+  color: white;
 }
 
 .chart-appointment-container {
   display: flex; /* Aligns children in a row */
   justify-content: space-between; /* Space between elements */
   margin: 20px 20px 20px 0; /* Adjust margin to separate it */
+  gap: 20px;
 }
 
 /* Chart Container Styles */
 .chart-container {
   flex: 1; /* Allow the chart to grow and fill space */
-  background-color: #d6f6d5;
+  background: linear-gradient(145deg, #188754, #d6f6d5); /* Gradient background */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-right: 20px; /* Space between chart and appointment */
+  margin-right: 10px; /* Space between chart and appointment */
+  margin-left: 30px;
 }
 
 /* Appointment Content Styles */
@@ -318,20 +334,31 @@ export default {
   padding: 20px;
   margin-right: 10px; /* Add space between the chart and the appointment section */
 }
-
+.chart-title{
+  color: white;
+  font-size: 1.5rem;
+  margin-top: 0%;
+}
 /* Improved Today's Appointments Card */
 .appointment-card {
-  background-color: white; /* Clean white background */
+  flex: 1;
+  background: linear-gradient(145deg, #188754, #d6f6d5); 
   padding: 20px;
   border-radius: 15px; /* Rounded corners */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.card-header {
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ddd; /* Add a subtle underline to separate the header */
 }
 
 .card-title {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #333; /* Darker text color for better readability */
+  color: white; /* Darker text color for better readability */
+  margin-top: 2%;
 }
 
 /* Table Styles */
@@ -341,10 +368,10 @@ export default {
   border-spacing: 0 10px; /* Adds spacing between rows */
 }
 
-.table th,
-.table td {
-  padding: 12px 15px; /* Add more padding for a cleaner look */
+.table th, .table td {
+  padding: 12px 15px;
   text-align: left;
+  font-size: 0.95rem; /* Slightly smaller font for better fit */
 }
 
 .table th {
@@ -379,16 +406,17 @@ export default {
 
 /* Pagination Styles */
 .pagination {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 15px;
+  gap: 10px; /* Spacing between pagination buttons */
 }
 
 .pagination button {
   padding: 8px 12px;
   border: none;
-  background-color: #42a5f5; /* Same blue as stat cards for consistency */
+  background-color: #188754; /* Same blue as stat cards for consistency */
   color: white;
   cursor: pointer;
   border-radius: 5px;
@@ -396,7 +424,7 @@ export default {
 }
 
 .pagination button:hover {
-  background-color: #1e88e5; /* Darker blue on hover */
+  background-color: #d6f6d5; /* Darker blue on hover */
 }
 
 .pagination button:disabled {
@@ -419,13 +447,13 @@ export default {
     width: 100%;
     margin-bottom: 1rem;
   }
-
-  .chart-and-appointments {
+}
+  @media (max-width: 1024px) {
+  .chart-appointment-container {
     flex-direction: column;
   }
 
-  .chart-content,
-  .appointment-content {
+  .chart-container, .appointment-card {
     width: 100%;
     margin-bottom: 1rem;
   }

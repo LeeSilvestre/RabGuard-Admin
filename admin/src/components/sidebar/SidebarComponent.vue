@@ -22,9 +22,9 @@ export default {
     <div class="links">
   <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
   <SidebarLink to="/patient" icon="fas fa-users">Patients</SidebarLink>
-  <SidebarLink to="/current" icon="fas fa-user-clock">Current Patients</SidebarLink>
   <SidebarLink to="/new" icon="fas fa-user-plus">New Patients</SidebarLink>
   <SidebarLink to="/old" icon="fas fa-user-check">Old Patients</SidebarLink>
+  <SidebarLink to="/current" icon="fas fa-user-clock">Scheduled</SidebarLink>
   <SidebarLink to="/queue" icon="fas fa-list-ul">Queues</SidebarLink>
   <SidebarLink to="/history" icon="fas fa-history">History</SidebarLink>
   <SidebarLink to="/analytics" icon="fas fa-chart-pie">Analytics</SidebarLink>

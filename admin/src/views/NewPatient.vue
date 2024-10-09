@@ -174,7 +174,7 @@
 </template>
 
 <script>
-
+import Swal from 'sweetalert2';
 import axios from 'axios';
 export default {
   name: 'NewPatients',
@@ -320,8 +320,20 @@ export default {
         });
     },
     editPatient(patient) {
-      this.editedPatient = { ...patient };
-      this.showEditModal = true;
+      Swal.fire({
+        title: 'Provide Vaccination Record',
+        text: `Are you sure you want to provide a vaccination record for ${patient.fname}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, provide record!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.showEditModal = true; // Show the edit modal after confirmation
+          this.editedPatient = { ...patient };
+        }
+      });
     },
     fullName(patient) {
       let nameParts = [];
@@ -332,15 +344,27 @@ export default {
       return nameParts.join(' ');
     },
     submitEdit() {
-      axios.put(`http://localhost:8081/api/record/${this.editedPatient.vacc_id}`, {expcateg: this.editedPatient.expcateg})
-        .then(response => {
-          console.log('Record updated successfully:', response.data);
-          this.showEditModal = false;
-          this.fetchPatients();
-        })
-        .catch(error => {
-          console.error('Error updating record:', error);
-        });
+      Swal.fire({
+        title: 'Confirm Update',
+        text: 'Are you sure you want to update this record?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, update it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.put(`http://localhost:8081/api/record/${this.editedPatient.vacc_id}`, { expcateg: this.editedPatient.expcateg })
+            .then(response => {
+              console.log('Record updated successfully:', response.data);
+              this.showEditModal = false;
+              this.fetchPatients();
+            })
+            .catch(error => {
+              console.error('Error updating record:', error);
+            });
+        }
+      });
     },
     resetFormFields() {
       this.newPatient = {

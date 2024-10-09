@@ -5,7 +5,9 @@
       <span class="text">History</span>
       <i class="fas fa-history"></i>
       <hr />
+      
     </div>
+    <button @click="exportToExcel" class="export-button">Generate Report</button>
   </div>
   <div class="patients-list-container">
     <div class="title-container">
@@ -146,6 +148,7 @@
 
 <script>
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 export default {
   name: 'NewPatients',
   data() {
@@ -204,6 +207,44 @@ export default {
         patient.address.toLowerCase().includes(query) ||
         patient.contact.toString().includes(query)
       );
+    },
+    exportToExcel() {
+      const exportData = this.filteredPatients.map(patient => ({
+        'PATIENT NAME': this.fullName(patient),
+        'EXPOSURE DATE': this.formatDate(patient.expdate),
+        'EXPOSURE TYPE': patient.exptype,
+        'EXPOSURE SITE': patient.expsite,
+        'DATE OF EXPOSURE': this.formatDate(patient.date0),
+        'COMPLETE VACCINATION': (patient.day3 === 1 && patient.day7 === 1) ? 'Yes' : 'No',
+        'DATE OF COMPLETION': patient.is_done ? this.formatDate(patient.is_done) : 'Did Not Complete Vaccination'
+      }));
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      worksheet['!cols'] = [
+        { width: 30 }, // 'The Patient Name'
+        { width: 20 }, // 'Exposure Date'
+        { width: 20 }, // 'Exposure Type'
+        { width: 20 }, // 'Exposure Site'
+        { width: 20 }, // 'Date of Exposure'
+        { width: 25 }, // 'Completed The Vaccination'
+        { width: 30 }  // 'Date of Completion'
+      ];
+
+      const headerRange = XLSX.utils.decode_range(worksheet['!ref']);
+      for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+        const cellAddress = { c: col, r: headerRange.s.r };
+        const cellRef = XLSX.utils.encode_cell(cellAddress);
+        if (!worksheet[cellRef]) worksheet[cellRef] = {};
+        worksheet[cellRef].s = {
+          font: {
+            bold: true
+          }
+        };
+      }
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Vaccination Records');
+      XLSX.writeFile(workbook, 'VaccinationRecords.xlsx');
     },
     updateTime() {
       const now = new Date();
@@ -324,7 +365,6 @@ export default {
     submitEdit() {
       const updatedData = {
         expcateg: this.editedPatient.expcateg,
-        // Check if the checkbox is checked and assign 1 or 0 accordingly
         day3: this.editedPatient.day3 ? 1 : 0,
         day7: this.editedPatient.day7 ? 1 : 0,
         day28: this.editedPatient.day28 ? 1 : 0,
@@ -338,8 +378,8 @@ export default {
       axios.put(`http://localhost:8081/api/record/${this.editedPatient.vacc_id}`, updatedData)
         .then(response => {
           console.log('Record updated successfully:', response.data);
-          this.showEditModal = false; // Close modal after successful submission
-          this.fetchPatients(); // Fetch updated patient list
+          this.showEditModal = false; 
+          this.fetchPatients(); 
         })
         .catch(error => {
           console.error('Error updating record:', error);
@@ -352,6 +392,25 @@ export default {
 
 
 <style scoped>
+.export-button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+  margin: 1rem; /* Space around the container */
+  padding-right: 2rem; /* Space from the right edge of the page */
+}
+
+.export-button {
+  padding: 10px 20px;
+  background-color: #0f8444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.export-button:hover {
+  background-color: #19c366;
+}
 .bg-title {
   z-index: -1;
   position: absolute;
@@ -559,7 +618,7 @@ hr {
 .search-icon {
   position: absolute;
   top: 50%;
-  left: 0.50rem;
+  left: 0.75rem;
   transform: translateY(-50%);
   color: black;
   margin-left: 20px;

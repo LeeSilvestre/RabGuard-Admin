@@ -28,9 +28,9 @@ const routes = [
     component: () => import('../views/PreviousRecord.vue')
   },
   {
-    path: '/announcement',
-    name: 'Announcement',
-    component: () => import('../views/Announcement.vue')
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/DashBoard.vue')
   },
 ]
 

@@ -18,12 +18,11 @@ export default {
       <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" :style="{ width: collapsed ? '100%' : '150px' }">
     </div>
     <div class="separator"></div>
-
+    <SidebarLink to="/dashboard" icon="fas fa-chart-bar">Dashboard</SidebarLink>
     <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
     <SidebarLink to="/request" icon="fas fa-chart-line">Request Record</SidebarLink>
     <SidebarLink to="/vaccine" icon="fas fa-syringe">Vaccine Record</SidebarLink>
     <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
-   <!--<SidebarLink to="/announcement" icon="fas fa-image">Announcement</SidebarLink>--> 
     <div class="separator"></div>
 
     <div class="logout-link">
@@ -40,13 +39,10 @@ export default {
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
 :root {
   --sidebar-bg-color: #188754;
-  --sidebar-item-hover: #157347;
-  --sidebar-item-active: #145c3d;
-  --font-family: 'Montserrat', sans-serif;
+  --sidebar-item-hover: #188754;
+  --sidebar-item-active: #0a4d2c; /* Different color for active state */
 }
 
 .sidebar {
@@ -65,9 +61,8 @@ export default {
   overflow-y: hidden;
   overflow-x: hidden;
   font-family: var(--font-family);
-  /* border-top-right-radius: 15px ;
-  border-bottom-right-radius: 15px; */
-  
+  border-top-right-radius: 15px ;
+  border-bottom-right-radius: 15px;
 }
 
 .logo-container {
@@ -94,7 +89,6 @@ export default {
 .sidebar-link {
   display: flex;
   align-items: center;
-  padding: 10px;
   text-decoration: none;
   color: white;
   transition: background-color 0.5s;
@@ -103,6 +97,10 @@ export default {
 
 .sidebar-link:hover {
   background-color: var(--sidebar-item-hover);
+}
+
+.sidebar-link.router-link-active {
+  background-color: var(--sidebar-item-active); /* Use the defined variable for active state */
 }
 
 .link.active {

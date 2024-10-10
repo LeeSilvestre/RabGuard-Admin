@@ -1,39 +1,34 @@
+<template>
+  <div id="app">
+    <HeaderComponent v-if="!isRestrictedPage" />
+    <Sidebar v-if="!isRestrictedPage" />
+    <div :style="{ 'margin-left': sidebarWidth }" v-if="!isRestrictedPage">
+      <router-view />
+    </div>
+    <router-view v-else />
+  </div>
+</template>
+
 <script>
-import Sidebar from '@/components/sidebar/SidebarComponent'
-import { sidebarWidth } from '@/components/sidebar/state'
+import Sidebar from '@/components/sidebar/SidebarComponent';
+import { sidebarWidth } from '@/components/sidebar/state';
 import HeaderComponent from '@/components/HeaderComponent';
 
 export default {
   components: { Sidebar, HeaderComponent },
   setup() {
-    return { sidebarWidth }
+    return { sidebarWidth };
   },
   computed: {
-      isLoginPage() {
-        // Check if the current route is the login page
-        return this.$route.path === '/';
-      },
+    isRestrictedPage() {
+      // Check if the current route is the landing page or login page
+      return this.$route.path === '/' || this.$route.path === '/login';
     },
-}
+  },
+};
 </script>
-<template>
-  <template v-if="!isLoginPage"> <!-- Only render sidebar if not on login page -->
-  <HeaderComponent />
-  <Sidebar />
-  <div :style="{ 'margin-left': sidebarWidth }">
-  <router-view />
-  </div>
-  </template>
-    <template v-else>
-    <router-view />
-</template>
-</template>
 
 <style>
-body{
-  margin: 0;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

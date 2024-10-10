@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/LoginComponent.vue'
+import LandingPage from '../views/LandingPage.vue' // Import the landing page component
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/', // Set the default route to the landing page
+    name: 'Landing',
+    component: LandingPage
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Home // The login page will be your existing `LoginComponent.vue`
   },
   {
     path: '/profile',
@@ -31,7 +37,7 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/DashBoard.vue')
-  },
+  }
 ]
 
 const router = createRouter({

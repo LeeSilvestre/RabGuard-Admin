@@ -90,10 +90,10 @@
         <h2>Animal Bite Treatment Center</h2>
         <div class="inputs">
           <br>
-          <span><i class="fa-solid fa-lock"></i></span><input v-model="password" type="password" placeholder="Password">
+          <span><i class="fa-solid fa-envelope"></i></span><input v-model="username" type="text" placeholder="Email">
         </div>
 
-        <span><i class="fa-solid fa-envelope"></i></span><input v-model="username" type="text" placeholder="Email">
+        <span><i class="fa-solid fa-lock"></i></span><input v-model="password" type="password" placeholder="Password">
 
         <br><br>
 
@@ -495,7 +495,6 @@ th, td {
 .box-form .right {
   width:60%;
   padding: 40px;
-
   overflow: hidden;
 }
 @media (max-width: 980px) {
@@ -618,16 +617,15 @@ label input[type="checkbox"] {
 /* Background image for the entire page */
 .page-container {
   background-image: url('../assets/bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: cover; /* Ensures it covers the entire container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repeating */
   height: 100vh; /* Full viewport height */
   width: 100vw; /* Full viewport width */
-  overflow: hidden; /* Remove scrollbars */
-  display: flex; /* Flexbox for centering */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  margin: 0; /* Remove default margin */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
 
 /* Styling for the form container */

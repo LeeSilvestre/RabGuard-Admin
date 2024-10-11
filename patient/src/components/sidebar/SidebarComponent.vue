@@ -26,7 +26,7 @@ export default {
     <div class="separator"></div>
 
     <div class="logout-link">
-      <SidebarLink to="/" icon="fas fa-sign-out-alt">Logout</SidebarLink>
+      <SidebarLink to="/login" icon="fas fa-sign-out-alt">Logout</SidebarLink>
     </div>
     <span
       class="collapse-icon"

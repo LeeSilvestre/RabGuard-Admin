@@ -1,8 +1,13 @@
 <template>
   <div class="patients-list-container">
-    <div class="title-container">
-      <i class="fas fa-history"></i>
-      <h1 class="title">History</h1>
+    <div class="top-container">
+      <h1 class="bg-title">Records</h1>
+      <div class="patient">
+        <i class="fas fa-file-medical"></i>
+        <span class="text">History</span>
+        <hr />
+      </div>
+      <button class="edit-button" @click="editPatient(loggedInPatient)">Update</button>
     </div>
     <div class="patients-container">
       <div class="patient-box" v-for="(patient, index) in filteredPatients" :key="index">
@@ -330,6 +335,51 @@ import { mapState } from "vuex";
 
 
 <style scoped>
+.bg-title {
+  z-index: -1;
+  position: absolute;
+  opacity: 10%;
+  top: 0;
+  right: 0;
+  margin: 0;
+  font-size: 100px;
+  font-family: Impact, fantasy;
+  margin-right: 10px;
+}
+.top-container {
+  display: flex;
+  margin: 0.5rem;
+  padding-top: 2%;
+  position: relative;
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.patient .text {
+  margin-left: 1rem;
+  color: var(--dark);
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: 6px;
+}
+
+.patient i {
+  color: var(--dark);
+  font-size: 3rem;
+  position: relative;
+}
+hr {
+  flex-basis: 100%;
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 2.5rem 0 0 0;
+}
+
 .patient-info-wrapper {
   display: flex;
   flex-direction: column;

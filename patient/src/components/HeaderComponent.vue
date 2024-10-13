@@ -43,6 +43,9 @@ export default {
   width: 100%;
   height: auto;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 0, 0;
+  margin-left: 8px;
+  margin-top: -8px;
 }
 
 .header-bar i {

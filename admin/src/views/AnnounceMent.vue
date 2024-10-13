@@ -1,17 +1,19 @@
 <template>
+  
   <main>
     <div class="top-container">
-      <h1 class="bg-title">Announcement</h1>
-      <div class="dashboard">
-        <span class="text">Announcement</span>
+      <h1 class="bg-title">Announcements</h1>
+      <div class="patient">
+        <span class="text">Announcements</span>
         <i class="fas fa-bullhorn"></i>
+        <hr />
       </div>
+      <button @click="showForm = true" class="add-post-button">Add Post</button>
     </div>
+
     <div class="content-container">
       <div class="add-post-container">
-        <button @click="showForm = true" class="add-post-button">
-          Add Post
-        </button>
+       
         <div v-if="showForm" class="modal">
           <div class="modal-content">
             <span class="close-button" @click="showForm = false">&times;</span>
@@ -110,40 +112,45 @@ export default {
   opacity: 10%;
   top: 0;
   right: 0;
-  font-size: 90px;
-  font-family: 'Impact', fantasy;
+  margin: 0;
+  font-size: 100px;
+  font-family: Impact, fantasy;
   margin-right: 10px;
 }
-
 .top-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 2px solid #e2e8f0;
+  margin: 0.5rem;
+  padding-top: 2%;
+  position: relative;
 }
 
-.dashboard {
+.patient {
   display: flex;
   align-items: center;
+  flex: 1;
 }
 
-.dashboard .text {
-  font-size: 1.8rem;
+.patient .text {
+  margin-left: 1rem;
+  color: var(--dark);
+  font-size: 1.5rem;
   font-weight: 900;
-  color: #333;
-  margin-right: 0.5rem;
 }
 
-.dashboard i {
-  color: #ff9800;
-  font-size: 2.5rem;
+.patient i {
+  color: var(--dark);
+  font-size: 3rem;
+  position: relative;
 }
-
 hr {
   flex-basis: 100%;
   border: none;
   border-top: 1px solid #ddd;
+  margin: 2.5rem 0 0 0;
+}
+
+.content-container {
+  margin-top: 20px;
 }
 
 /* Add Post Button Styling */

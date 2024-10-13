@@ -1,10 +1,14 @@
 <template>
   <div class="patients-list-container">
-    <div class="title-container">
-      <i class="fas fa-chart-line"></i>
-      <h1 class="title">Request Record</h1>
+    <div class="top-container">
+      <h1 class="bg-title">Request</h1>
+      <div class="patient">
+        <i class="fas fa-bell-concierge"></i>
+        <span class="text">Request</span>
+        <hr />
+      </div>
     </div>
-    </div>
+  </div>
     <!--EDIT MODAL-->
     <div class="modal" v-if="showEditModal">
       <div class="modal-content">
@@ -346,6 +350,52 @@ import axios from 'axios';
 
 
 <style scoped>
+.bg-title {
+  z-index: -1;
+  position: absolute;
+  opacity: 10%;
+  top: 0;
+  right: 0;
+  margin: 0;
+  font-size: 100px;
+  font-family: Impact, fantasy;
+  margin-right: 10px;
+}
+.top-container {
+  display: flex;
+  margin: 0.5rem;
+  padding-top: 2%;
+  position: relative;
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.patient .text {
+  margin-left: 1rem;
+  color: var(--dark);
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: 6px;
+}
+
+.patient i {
+  color: var(--dark);
+  font-size: 3rem;
+  position: relative;
+}
+
+hr {
+  flex-basis: 100%;
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 2.5rem 0 0 0;
+}
+
 .patient-info-wrapper {
   display: flex;
   flex-direction: column;

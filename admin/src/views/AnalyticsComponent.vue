@@ -1,6 +1,15 @@
 <template>
-  <div>
+  <div class="top-container">
+    <h1 class="bg-title">Analytics</h1>
+    <div class="patient">
+      <span class="text">Analytics</span>
+      <i class="fas fa-table"></i>
+      <hr />
+    </div>
     <button @click="exportToPDF" class="export-button">Export to PDF</button>
+  </div>
+
+  <div>
     <table ref="table" class="styled-table">
       <thead>
         <tr>
@@ -189,6 +198,49 @@ export default {
 </script>
 
 <style scoped>
+.bg-title {
+  z-index: -1;
+  position: absolute;
+  opacity: 10%;
+  top: 0;
+  right: 0;
+  margin: 0;
+  font-size: 100px;
+  font-family: Impact, fantasy;
+  margin-right: 10px;
+}
+.top-container {
+  display: flex;
+  margin: 0.5rem;
+  padding-top: 2%;
+  position: relative;
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.patient .text {
+  margin-left: 1rem;
+  color: var(--dark);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.patient i {
+  color: var(--dark);
+  font-size: 3rem;
+  position: relative;
+}
+hr {
+  flex-basis: 100%;
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 2.5rem 0 0 0;
+}
+
 .export-button {
   background-color: #188754; /* Bootstrap primary color */
   color: white;

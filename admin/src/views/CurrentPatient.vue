@@ -1,8 +1,8 @@
 <template>
   <div class="top-container">
-    <h1 class="bg-title">Old Patient</h1>
+    <h1 class="bg-title">Scheduled Patients</h1>
     <div class="old">
-      <span class="text">OldPatients</span>
+      <span class="text">SccheduledPatients</span>
       <i class="fas fa-user"></i>
       <hr />
     </div>
@@ -182,7 +182,18 @@ export default {
   },
   computed: {
     filteredPatients() {
-      return this.patients.filter(patient => patient.status == 1 || patient.status == 3);
+      const currentDate = this.getCurrentDate();
+
+      return this.patients.filter(patient => {
+        const statusMatch = patient.status == 1 || patient.status == 3;
+
+        const dateMatch = this.formatDate(patient.date0) === currentDate ||
+                          this.formatDate(patient.date3) === currentDate ||
+                          this.formatDate(patient.date7) === currentDate ||
+                          this.formatDate(patient.date28) === currentDate;
+
+        return statusMatch && dateMatch;
+      });
     }
   },
   methods: {

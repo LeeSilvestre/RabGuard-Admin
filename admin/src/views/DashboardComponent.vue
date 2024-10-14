@@ -15,7 +15,7 @@
           </div>
           <div class="text-container">
             <h2>Total Patients</h2>
-            <span>2000+</span>
+            <span>{{ totalPatients }}</span>
           </div>
         </div>
         <div class="stat-card">
@@ -24,7 +24,7 @@
           </div>
           <div class="text-container">
             <h2>Today Patients</h2>
-            <span>068</span>
+            <span>{{ todayPatients }}</span> <!-- Dynamic value -->
           </div>
         </div>
         <div class="stat-card">
@@ -93,11 +93,14 @@
 
 
 <script>
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto'; 
+import axios from 'axios'; 
 
 export default {
   data() {
     return {
+      totalPatients: 0,
+      todayPatients: 0,
       appointments: [
         { patient: 'Lanpher Garia', place: 'East Tapinac', status: 'On going' },
         { patient: 'Sanath Deo', place: 'Old Cabalan', status: 'Done' },
@@ -144,6 +147,18 @@ export default {
     },
   },
   methods: {
+    async fetchTotalPatients() {
+      try {
+        const response = await axios.get('http://localhost:8081/api/user');
+        if (response.data && Array.isArray(response.data)) {
+          this.totalPatients = response.data.length; // Total patients count
+          this.todayPatients = response.data.filter(patient => patient.isToday).length; // Filter today's patients
+        }
+      } catch (error) {
+        console.error('Error fetching total patients:', error);
+      }
+    },
+
     renderCharts() {
       this.renderPatientSummaryChart();
     },
@@ -195,6 +210,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.renderCharts();
+      this.fetchTotalPatients();
     });
   },
 };

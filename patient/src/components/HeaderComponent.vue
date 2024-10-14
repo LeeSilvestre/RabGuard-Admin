@@ -1,12 +1,15 @@
 <template>
   <header class="header-bar">
-      <i class="fas fa-columns"></i>
+    <i class="fas fa-columns"></i>
     <div class="header-content">
-      <h1></h1>
       <p>{{ currentDate }}</p>
+      <div class="username">
+        <p>Username</p>
+      </div>
     </div>
   </header>
 </template>
+
 
 <script>
 export default {
@@ -35,17 +38,18 @@ export default {
 
 <style scoped>
 .header-bar {
+  margin-top: -8px;
   display: flex;
   align-items: center;
   background-color: white;
-  color: white;
-  text-align: center;
+  color: gray;
   width: 100%;
   height: auto;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin: 0, 0;
-  margin-left: 8px;
-  margin-top: -8px;
+  padding: 0 16px;
+  position: sticky; /* Makes the header sticky */
+  top: 0; /* Sticks the header to the top */
+  z-index: 2; /* Ensures the header stays on top of other content */
 }
 
 .header-bar i {
@@ -58,17 +62,17 @@ export default {
   justify-content: space-between;
   flex: 1;
   padding: 16px;
+  align-items: center;
+  margin-left: 170px;
 }
 
-.header-bar h1 {
-  margin: 0;
-  font-size: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.header-bar .username {
+  margin-left: 16px;
 }
 
 .header-bar p {
   margin: 0;
-  color: gray;
   font-size: 20px;
 }
 </style>
+

@@ -5,10 +5,10 @@
       <span class="text">History</span>
       <i class="fas fa-history"></i>
       <hr />
-      
     </div>
     <button @click="exportToExcel" class="export-button">Generate Report</button>
   </div>
+
   <div class="patients-list-container">
     <div class="title-container">
       <div class="search-container">
@@ -16,131 +16,53 @@
         <input type="text" v-model="searchQuery" placeholder="Search Patients" class="search-bar">
       </div>
     </div>
+
     <div class="patients-container">
-      <div class="patient-box" v-for="(patient, index) in filteredPatients" :key="index">
+      <div class="patient-box" 
+           v-for="(patient, index) in filteredPatients" 
+           :key="index">
+        
         <div class="patient-info">
           <div class="image-container">
             <img class="patient-image" :src="getPatientImage(patient.user_photo)" alt="Profile Image">
             <div><strong>VACC ID:</strong> {{ patient.vacc_id }}</div>
           </div>
+
+          <!-- Patient Basic Info -->
           <div class="text-info">
             <div><strong>NAME:</strong> {{ fullName(patient) }}</div>
             <div><strong>AGE:</strong> {{ calculateAge(patient.birthdate) }}</div>
             <div><strong>ADDRESS:</strong> {{ patient.address }}</div>
             <div><strong>GENDER:</strong> {{ patient.sex === 'male' ? 'M' : 'F' }}</div>
             <div><strong>CONTACT:</strong> 0{{ patient.contact }}</div>
-            <div class="id-info">
-              <div><strong>Date of Exposure:</strong> {{ formatDate(patient.expdate) }}</div>
-              <div><strong>Place of Exposure:</strong> {{ patient.expplace }}</div>
-              <div><strong>Type of Exposure:</strong> {{ patient.exptype }}</div>
-              <div><strong>Source of Exposure:</strong> {{ patient.expsource }}</div>
-              <div><strong>Category of Exposure:</strong> {{ patient.expcateg }}</div>
-              <div><strong>Site of Exposure:</strong> {{ patient.expsite }}</div>
-              <div><strong>Washing of Bite Wound:</strong> {{ patient.wash === 0 ? 'NO' : 'YES' }}</div>
-              <div style="margin-top: 17px;"><strong>Schedules:</strong></div>
-              <div><strong>Day 0:</strong> {{ formatDate(patient.date0) }}</div>
-              <div><strong>Day 3:</strong> {{ formatDate(patient.date3) }}</div>
-              <div><strong>Day 7:</strong> {{ formatDate(patient.date7) }}</div>
-              <div><strong>Day 28:</strong> {{ formatDate(patient.date28) }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!--EDIT MODAL-->
-    <div class="modal" v-if="showEditModal">
-      <div class="modal-content">
-        <h2>{{editedPatient.fname}}'s Vaccine Record</h2>
-        <div class="text-info">
-              <div><strong>AGE:</strong> {{ calculateAge(editedPatient.birthdate) }}</div>
-              <div><strong>ADDRESS:</strong> {{ editedPatient.address }}</div>
-              <div><strong>GENDER:</strong> {{ editedPatient.sex === 'male' ? 'M' : 'F' }}</div>
-              <div><strong>CONTACT:</strong> 0{{ editedPatient.contact }}</div>
-              <div class="id-info">
-                <div><strong>Date of Exposure:</strong> {{ formatDate(editedPatient.expdate) }}</div>
-                <div><strong>Place of Exposure:</strong> {{ editedPatient.expplace }}</div>
-                <div><strong>Type of Exposure:</strong> {{ editedPatient.exptype }}</div>
-                <div><strong>Category of Exposure:</strong> {{ editedPatient.expcateg }}</div>
-                <div><strong>Source of Exposure:</strong> {{ editedPatient.expsource }}</div>
-                <div><strong>Site of Exposure:</strong> {{ editedPatient.expsite }}</div>
-                <div style="margin-bottom: 15px;"><strong>Washing of Bite Wound:</strong> {{ editedPatient.wash === 0 ? 'NO' : 'YES' }}</div>
-              </div>
-          </div>
-        <div class="form-columns">
-          <!-- Left Column -->
-          <div class="form-column">
-
-              <div style="margin-top: 15px;"><strong>Day 0:</strong> {{ formatDate(editedPatient.date0) }} <i v-if="editedPatient.date0" class="fas fa-check"></i></div>
-              <div><strong>Day 3:</strong> {{ formatDate(editedPatient.date3) }} <template v-if="editedPatient.day3 === 1"><i class="fas fa-check"></i></template><template v-else><input type="checkbox" v-model="editedPatient.day3"></template></div>
-              <div v-if="editedPatient.day3 === 1">
-                <strong>Day 7:</strong> {{ formatDate(editedPatient.date7) }}
-                <template v-if="editedPatient.day7 === 1"><i class="fas fa-check"></i></template>
-                <template v-else><input type="checkbox" v-model="editedPatient.day7"></template>
-              </div>
-              <div v-if="editedPatient.day7 === 1">
-                <strong>Day 28:</strong> {{ formatDate(editedPatient.date28) }}
-                <template v-if="editedPatient.day28 === 1"><i class="fas fa-check"></i></template>
-                <template v-else><input type="checkbox" v-model="editedPatient.day28"></template>
-              </div>
           </div>
         </div>
 
-        <div class="button-group">
-          <button class="cancel-button" @click="showEditModal = false">Cancel</button>
-          <button type="submit" @click="submitEdit" class="submit-button">Update</button>
-        </div>
-      </div>
-    </div>
-    <!--ADD MODAL-->
-    <div class="modal" v-if="showAddModal">
-    <div class="modal-content">
-      <h2>Add New Patient</h2>
-      <div class="form-columns">
-        <!-- Left Column -->
-        <div class="form-column">
-          <div class="form-group">
-            <label for="fname">User ID</label>
-            <input type="text" id="fname" v-model="newPatient.user_id" required>
+        <!-- Dropdown Button -->
+        <button @click="toggleExposure(index)" class="dropdown-button">
+          {{ showExposure[index] ? 'Hide Exposure Details' : 'Show Exposure Details' }}
+        </button>
+
+        <!-- Exposure Details and Schedules (Two Columns) -->
+        <div v-if="showExposure[index]" class="exposure-schedules-container">
+          <div class="exposure-info">
+            <div class="exposure-detail"><strong>Date of Exposure:</strong> {{ formatDate(patient.expdate) }}</div>
+            <div class="exposure-detail"><strong>Place of Exposure:</strong> {{ patient.expplace }}</div>
+            <div class="exposure-detail"><strong>Type of Exposure:</strong> {{ patient.exptype }}</div>
+            <div class="exposure-detail"><strong>Source of Exposure:</strong> {{ patient.expsource }}</div>
+            <div class="exposure-detail"><strong>Category of Exposure:</strong> {{ patient.expcateg }}</div>
+            <div class="exposure-detail"><strong>Site of Exposure:</strong> {{ patient.expsite }}</div>
+            <div class="exposure-detail"><strong>Washing of Bite Wound:</strong> {{ patient.wash === 0 ? 'NO' : 'YES' }}</div>
           </div>
 
-          <div class="form-group">
-            <label for="lname">Date of Exposure</label>
-            <input type="text" id="lname" v-model="newPatient.expdate" required>
-          </div>
-
-          <div class="form-group">
-            <label for="sex">Place of Exposure</label>
-            <input type="text" id="address" v-model="newPatient.expplace" required>
-          </div>
-
-          <div class="form-group">
-            <label for="sex">Source of Exposure</label>
-            <input type="text" id="address" v-model="newPatient.expsource" required>
+          <div class="schedules-info">
+            <div class="exposure-detail" style="margin-top: 17px;"><strong>Schedules:</strong></div>
+            <div class="exposure-detail"><strong>Day 0:</strong> {{ formatDate(patient.date0) }}</div>
+            <div class="exposure-detail"><strong>Day 3:</strong> {{ formatDate(patient.date3) }}</div>
+            <div class="exposure-detail"><strong>Day 7:</strong> {{ formatDate(patient.date7) }}</div>
+            <div class="exposure-detail"><strong>Day 28:</strong> {{ formatDate(patient.date28) }}</div>
           </div>
         </div>
-
-        <!-- Right Column -->
-        <div class="form-column">
-          <div class="form-group">
-            <label for="address">Type of Exposure</label>
-            <input type="text" id="address" v-model="newPatient.exptype" required>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Site of Exposure</label>
-            <input type="email" id="email" v-model="newPatient.expsite" required>
-          </div>
-          <div class="form-group">
-            <label for="mname">Wash</label>
-            <input type="text" id="mname" v-model="newPatient.wash">
-          </div>
-        </div>
-      </div>
-
-      <div class="button-group">
-        <button class="cancel-button" @click="showAddModal = false">Cancel</button>
-        <button type="submit" @click=submitForm class="submit-button">Submit</button>
       </div>
     </div>
   </div>
@@ -158,6 +80,7 @@ export default {
       showAddModal: false,
       showEditModal: false,
       searchQuery: '',
+      showExposure: [], 
       newPatient: { 
         user_id: '',
         expdate: '',
@@ -207,6 +130,14 @@ export default {
         patient.address.toLowerCase().includes(query) ||
         patient.contact.toString().includes(query)
       );
+    },
+    toggleExposure(index) {
+      // Check if the index already exists in the showExposure array; if not, initialize it.
+      if (this.showExposure[index] === undefined) {
+        this.showExposure[index] = false; // Default to hidden if not already defined
+      }
+      // Toggle the exposure details visibility
+      this.showExposure[index] = !this.showExposure[index];
     },
     exportToExcel() {
       const exportData = this.filteredPatients.map(patient => ({
@@ -511,7 +442,40 @@ hr {
  border-width: 1px 1px 1px 6px;
  border-radius: 10px;
 }
+.dropdown-button {
+  margin-top: 10px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 
+.dropdown-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+/* Align exposure details to the left */
+.exposure-detail {
+  text-align: left; /* Align text to the left */
+  margin-bottom: 5px; /* Space between lines */
+  margin-left: 30px;
+}
+.exposure-schedules-container {
+  display: flex; /* Create a two-column layout */
+  justify-content: space-between; /* Space between the two columns */
+  margin-top: 1rem; /* Space above the exposure/schedules section */
+}
+
+.exposure-info {
+  flex: 1; /* Take full width for exposure info */
+  margin-right: 20px; /* Space between exposure and schedules */
+}
+
+.schedules-info {
+  flex: 1; /* Take full width for schedules info */
+}
 .patient-info {
   display: flex;
   align-items: flex-start;

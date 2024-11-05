@@ -96,12 +96,52 @@
       </tfoot>
     </table>
   </div>
+  
+   <div class="total-patients-container">
+    <h3>Total Patients for each Barangay</h3>
+    <canvas id="totalPatientsBarChart"></canvas>
+  </div>
+
+  <div class="charts-container">
+    <!-- First row of charts -->
+    <div class="chart-row">
+      <div class="chart">
+        <h3>Sex Distribution</h3>
+        <canvas id="sexDistributionChart"></canvas>
+      </div>
+      <div class="chart">
+        <h3>Age Group</h3>
+        <canvas id="ageGroupChart"></canvas>
+      </div>
+      <div class="chart">
+        <h3>Exposure Category</h3>
+        <canvas id="exposureCategoryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Second row of charts -->
+    <div class="chart-row">
+      <div class="chart">
+        <h3>Post Exposure Prophylaxis</h3>
+        <canvas id="postExposureChart"></canvas>
+      </div>
+      <div class="chart">
+        <h3>Animal Bite Source</h3>
+        <canvas id="bitingAnimalChart"></canvas>
+      </div>
+      <div class="chart">
+        <h3>Washed Wounds</h3>
+        <canvas id="washChart"></canvas>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { nextTick } from 'vue';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import Chart from 'chart.js/auto';
 
 export default {
   data() {
@@ -142,7 +182,7 @@ export default {
           preP: 0,
           bitingAnimal: { dog: 17, cat: 0, others: 0 },
           wash: { yes: 17, no: 0 }
-        },
+        }
       ],
       totals: {
         sex: { male: 502, female: 540, total: 1042 },
@@ -156,6 +196,15 @@ export default {
         wash: { yes: 1018, no: 24 }
       }
     };
+  },
+  mounted() {
+    this.createSexDistributionChart();
+    this.createAgeGroupChart();
+    this.createExposureCategoryChart();
+    this.createPostExposureChart();
+    this.createBitingAnimalChart();
+    this.createWashChart();
+    this.createTotalPatientsBarChart();
   },
   methods: {
     exportToPDF() {
@@ -191,6 +240,200 @@ export default {
           // Save the PDF
           pdf.save('Rabies and Bite Victim.pdf');
         });
+      });
+    },
+    createTotalPatientsBarChart() {
+  const ctx = document.getElementById('totalPatientsBarChart').getContext('2d');
+  const dummyDate = "2024"; // Dummy date for demonstration
+  
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'Asinan', 'Banicain', 'Barretto', 'East Bajac-Bajac', 'East Tapinac',
+        'Gordon Heights', 'Kalaklan', 'Kalalake', 'New Cabalan', 'New Ilalim',
+        'New Kababae', 'New Kalalake', 'Old Cabalan', 'Pag-asa', 'Sta. Rita',
+        'West Bajac-Bajac', 'West Tapinac', 'Others'
+      ],
+      datasets: [
+        {
+          label: `Total Patients (As of ${dummyDate})`, // Label with the dummy date
+          data: [502, 235, 123, 546, 342, 113, 623, 123, 223, 145, 213, 634, 213, 123, 214, 532, 321, 423], // Dummy data
+          backgroundColor: '#36A2EB'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: `Total Patients for each Barangay (As of the year ${dummyDate})` // Title with dummy date
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Total Patients'
+          },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+},
+
+    createSexDistributionChart() {
+      const ctx = document.getElementById('sexDistributionChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Male', 'Female'],
+          datasets: [
+            {
+              label: 'Patients',
+              data: [502, 540], // Dummy data
+              backgroundColor: ['#36A2EB', '#FF6384']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    },
+    createAgeGroupChart() {
+      const ctx = document.getElementById('ageGroupChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Under 15', 'Over 15'],
+          datasets: [
+            {
+              label: 'Patients',
+              data: [407, 635], // Dummy data
+              backgroundColor: ['#FFCE56', '#FF6384']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    },
+    createExposureCategoryChart() {
+      const ctx = document.getElementById('exposureCategoryChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Cat I', 'Cat II', 'Cat III'],
+          datasets: [
+            {
+              label: 'Patients',
+              data: [40, 933, 109], // Dummy data
+              backgroundColor: ['#4BC0C0', '#36A2EB', '#FFCE56']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    },
+    createPostExposureChart() {
+      const ctx = document.getElementById('postExposureChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['TCV', 'c. TCV', 'HRIG', 'ERIG'],
+          datasets: [
+            {
+              label: 'Patients',
+              data: [1042, 106, 0, 40], // Dummy data
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    },
+    createBitingAnimalChart() {
+      const ctx = document.getElementById('bitingAnimalChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Dog', 'Cat', 'Others'],
+          datasets: [
+            {
+              label: 'Patients',
+              data: [530, 512, 0], // Dummy data
+              backgroundColor: ['#4BC0C0', '#FF9F40', '#9966FF']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    },
+    createWashChart() {
+      const ctx = document.getElementById('washChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Yes', 'No'],
+          datasets: [
+            {
+              label: 'Washed Wounds',
+              data: [1018, 24], // Dummy data
+              backgroundColor: ['#007BFF', '#FF6384']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
       });
     }
   }
@@ -259,7 +502,7 @@ hr {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 40px 0 0 0;
   font-size: 0.9em;
   font-family: Arial, sans-serif;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -273,7 +516,7 @@ hr {
 .styled-table th, .styled-table td {
   border: 1px solid #ccc;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .table-row:hover {
@@ -287,5 +530,64 @@ hr {
 
 tfoot td {
   font-weight: bold;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.chart-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background-color: #ffffff; /* Adds a background color */
+  border-radius: 10px; /* Rounds the corners */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Adds a soft shadow */
+  transition: transform 0.2s ease; /* Adds a subtle hover effect */
+}
+
+.chart:hover {
+  transform: translateY(-5px); /* Elevates the container on hover */
+}
+
+.chart h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #333; /* Optional: Adds a dark color for contrast */
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* Rounds the chart corners slightly */
+}
+
+.total-patients-container {
+  background-color: #ffffff; /* White background for a clean look */
+  border-radius: 12px; /* Rounds the corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 20px; /* Adds spacing around the content */
+  margin-top: 20px; /* Adds some space above the container */
+  text-align: center;
+}
+
+.total-patients-container h3 {
+  font-size: 1.4em; /* Larger heading font */
+  margin-bottom: 15px;
+  color: #333; /* Darker color for the heading */
+}
+
+#totalPatientsBarChart {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* Slightly rounded corners on the chart */
 }
 </style>

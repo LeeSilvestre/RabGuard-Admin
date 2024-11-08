@@ -276,6 +276,7 @@ import { mapState } from "vuex";
   font-family: Impact, fantasy;
   margin-right: 10px;
 }
+
 .top-container {
   display: flex;
   margin: 0.5rem;
@@ -303,6 +304,7 @@ import { mapState } from "vuex";
   font-size: 3rem;
   position: relative;
 }
+
 hr {
   flex-basis: 100%;
   border: none;
@@ -310,7 +312,7 @@ hr {
   margin: 2.5rem 0 0 0;
 }
 
-.display-container{
+.display-container {
   margin-top: 60px;
 }
 
@@ -320,9 +322,9 @@ hr {
   padding: 10px;
   margin-bottom: 10px;
   border-style: solid;
- border-color: #169d53;
- border-width: 1px 1px 1px 6px;
- border-radius: 10px;
+  border-color: #169d53;
+  border-width: 1px 1px 1px 6px;
+  border-radius: 10px;
 }
 
 .box label {
@@ -331,8 +333,9 @@ hr {
 
 .box-content {
   margin-top: 5px;
-  min-height: 1.5em; /* Adjust the minimum height as needed */
+  min-height: 1.5em;
 }
+
 .modal {
   display: flex;
   align-items: center;
@@ -351,19 +354,9 @@ hr {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  max-width: 400px; /* Adjust the maximum width as needed */
+  max-width: 400px;
   width: 100%;
-  position: relative;  /* Ensures close button is positioned relative to modal content */
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #333; /* Change color on hover if desired */
+  position: relative;
 }
 
 .submit-button {
@@ -405,9 +398,10 @@ hr {
   border-radius: 5px;
 }
 
-.edit-button:hover{
+.edit-button:hover {
   background-color: #0f6c44;
 }
+
 .patients-list-container {
   padding: 20px;
 }
@@ -418,11 +412,11 @@ hr {
 }
 
 .title-container i {
-  margin-right: 20px; /* Adjust this value as needed */
+  margin-right: 20px;
 }
 
 .title {
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .table-container {
@@ -432,20 +426,14 @@ hr {
 
 .form-columns {
   display: flex;
+  flex-wrap: wrap; /* Allows columns to stack on smaller screens */
 }
 
 .form-column {
   flex: 1;
   padding-right: 20px;
-}
-
-.form-columns {
-  display: flex;
-}
-
-.form-column {
-  flex: 1;
-  padding-right: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .form-group {
@@ -516,6 +504,7 @@ input[type="date"] {
 .submit-button:hover {
   background-color: #0f6c44;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -532,4 +521,33 @@ th {
   background-color: #1e3a8a;
   color: white;
 }
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .form-columns {
+    flex-direction: column; /* Stack columns vertically */
+  }
+
+  .form-column {
+    padding-right: 0; /* Remove extra padding */
+    width: 100%; /* Make columns take full width */
+  }
+
+  .modal-content {
+    max-width: 100%; /* Ensure modal content takes full width on small screens */
+    width: 90%; /* Adjust width */
+  }
+
+  .edit-button,
+  .add-button {
+    width: 100%; /* Make buttons full width on small screens */
+    margin-left: 0;
+  }
+
+  .button-group {
+    flex-direction: column; /* Stack buttons vertically in the modal */
+    gap: 10px;
+  }
+}
+
 </style>

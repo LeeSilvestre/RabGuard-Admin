@@ -107,7 +107,7 @@ img {
   text-align: left;
   margin-top: 80px;
 }
-.bottom-container{
+.bottom-container {
   margin-bottom: 300px;
 }
 
@@ -198,10 +198,12 @@ ul {
 
   .left-container h1 {
     margin-left: 0;
+    font-size: 24px; /* Adjusted font size for mobile */
   }
 
   .left-container img {
     margin-left: 0;
+    max-width: 90%; /* Scale down image size for mobile */
   }
 
   .right-container {
@@ -212,14 +214,33 @@ ul {
     width: 100%;
     margin-left: 0;
     margin-top: 20px;
+    padding: 15px; /* Adjust padding for mobile */
   }
 
-  .top-container, .bottom-container {
-    margin-top: 20px;
+  .top-container h2, .bottom-container h2 {
+    font-size: 18px; /* Adjust font size */
+  }
+
+  .card {
+    padding: 15px; /* Adjust card padding */
+  }
+
+  .card h3 {
+    font-size: 20px; /* Adjust heading font size */
+  }
+
+  .card p {
+    font-size: 14px; /* Adjust paragraph font size */
   }
 
   .bottom-container {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Adjust margin for better spacing */
+  }
+
+  /* Adjust the icon size for smaller screens */
+  .top-card-icon {
+    font-size: 50px;
   }
 }
+
 </style>

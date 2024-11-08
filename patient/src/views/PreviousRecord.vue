@@ -7,7 +7,6 @@
         <span class="text">History</span>
         <hr />
       </div>
-      <button class="edit-button" @click="editPatient(loggedInPatient)">Update</button>
     </div>
     <div class="patients-container">
       <div class="patient-box" v-for="(patient, index) in filteredPatients" :key="index">
@@ -670,5 +669,10 @@ th, td {
 th {
   background-color: #1e3a8a;
   color: white;
+}
+@media (max-width: 768px) {
+  .patient-box {
+    width: 100%; /* Full width on smaller screens */
+  }
 }
 </style>

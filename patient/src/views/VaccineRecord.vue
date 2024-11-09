@@ -53,7 +53,8 @@
 import axios from 'axios';
 import { mapState } from "vuex";
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable';
+import logo from '../assets/Logo-Health.png'; // Adjust the path based on your project structure
 
 export default {
   name: 'NewPatients',
@@ -101,40 +102,116 @@ export default {
       return nameParts.join(' ');
     },
     downloadPDF() {
-  const container = this.$refs.patientsListContainer;
-  if (!container) {
-    console.error("Container element is not found.");
-    return;
-  }
+  const doc = new jsPDF("p", "mm", "a4");
 
-  html2canvas(container, { scale: 2 }).then(canvas => {
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+  const primaryColor = [0, 102, 204]; // Dark blue color
+  const lightGray = [240, 240, 240]; // Light gray for sections
 
-    const imgWidth = 190; // Fit image within A4 width (210mm with margin)
-    const pageHeight = 297; // A4 page height in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  // Adding logo and header
+  doc.addImage(logo, 'PNG', 10, 10, 30, 30);
+  doc.setFontSize(18);
+  doc.setTextColor(...primaryColor);
+  doc.text('Animal Bite Treatment Center', 50, 20);
+  doc.setFontSize(12);
+  doc.text('Olongapo City, Zambales', 50, 27);
+  doc.text('Patient Vaccination Record', 50, 34);
 
-    let position = 10; // Initial vertical position
+  // Line Separator
+  doc.setDrawColor(...primaryColor);
+  doc.setLineWidth(0.5);
+  doc.line(10, 40, 200, 40);
 
-    if (imgHeight < pageHeight) {
-      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-    } else {
-      let remainingHeight = imgHeight;
-      let offsetY = 0;
+  let yPos = 45;
 
-      while (remainingHeight > 0) {
-        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight, undefined, "FAST", offsetY);
-        remainingHeight -= pageHeight;
-        offsetY += pageHeight;
-        if (remainingHeight > 0) pdf.addPage();
-      }
+  // Loop through patients
+  this.filteredPatients.forEach((patient, index) => {
+    if (index > 0) {
+      doc.addPage();
+      yPos = 45;
     }
 
-    pdf.save("Patients_Record.pdf");
-  }).catch((error) => {
-    console.error("Error generating the PDF:", error);
+    // Patient Info Section
+    doc.setFontSize(12);
+    doc.setFillColor(...lightGray);
+    doc.rect(10, yPos, 190, 10, 'F');
+    doc.setTextColor(0);
+    doc.text(`Patient Information`, 12, yPos + 7);
+    yPos += 15;
+
+    const patientDetails = [
+      { label: 'VACC ID:', value: patient.vacc_id },
+      { label: 'Name:', value: this.fullName(patient) },
+      { label: 'Age:', value: this.calculateAge(patient.birthdate) },
+      { label: 'Address:', value: patient.address },
+      { label: 'Gender:', value: patient.sex === 'male' ? 'Male' : 'Female' },
+      { label: 'Contact:', value: `0${patient.contact}` },
+    ];
+
+    patientDetails.forEach((detail) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${detail.label}`, 12, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${detail.value}`, 50, yPos);
+      yPos += 8;
+    });
+
+    // Exposure Info Table
+    autoTable(doc, {
+      startY: yPos + 5,
+      head: [['Date of Exposure', 'Place', 'Type', 'Source', 'Category', 'Site', 'Washing']],
+      body: [[
+        this.formatDate(patient.expdate),
+        patient.expplace,
+        patient.exptype,
+        patient.expsource,
+        patient.expcateg,
+        patient.expsite,
+        patient.wash === 0 ? 'No' : 'Yes'
+      ]],
+      theme: 'grid',
+      headStyles: { fillColor: primaryColor },
+      alternateRowStyles: { fillColor: lightGray },
+    });
+
+    yPos = doc.previousAutoTable.finalY + 10;
+
+    // Vaccination Schedule Section
+    doc.setFontSize(12);
+    doc.setFillColor(...lightGray);
+    doc.rect(10, yPos, 190, 10, 'F');
+    doc.text('Vaccination Schedules:', 12, yPos + 7);
+    yPos += 15;
+
+    const schedules = [
+      { day: 'Day 0', date: this.formatDate(patient.date0), completed: true },
+      { day: 'Day 3', date: this.formatDate(patient.date3), completed: patient.day3 === 1 },
+      { day: 'Day 7', date: this.formatDate(patient.date7), completed: patient.day7 === 1 },
+      { day: 'Day 28', date: this.formatDate(patient.date28), completed: patient.day28 === 1 },
+    ];
+
+    schedules.forEach(schedule => {
+      doc.text(
+        `${schedule.day}: ${schedule.date}`,
+        12,
+        yPos
+      );
+      if (schedule.completed) {
+        doc.circle(90, yPos - 2, 2, 'F'); // Completed symbol
+      } else {
+        doc.setDrawColor(255, 0, 0);
+        doc.circle(90, yPos - 2, 2); // Not completed outline
+      }
+      yPos += 8;
+    });
+
+    yPos += 10;
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150);
   });
+
+  doc.save('Patient_Vaccination_Record.pdf');
 },
     fetchPatients() {
       axios.get('http://localhost:8081/api/record/')

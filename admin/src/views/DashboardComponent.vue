@@ -7,6 +7,14 @@
         <hr />
       </div>
     </div>
+      <!-- Slimmer greeting container with aligned text and overlapping image -->
+      <div class="greeting-container">
+        <div class="greeting-text">
+          <h1>Good Morning, Admin!</h1>
+          <p>Have a nice day at work</p>
+        </div>
+        <img src="@/assets/working.svg" alt="Person working on laptop" class="greeting-image" />
+      </div>
     <div class="wrapper">
       <div class="stats-cards">
         <div class="stat-card">
@@ -95,6 +103,7 @@
 <script>
 import Chart from 'chart.js/auto'; 
 import axios from 'axios'; 
+
 
 export default {
   data() {
@@ -237,7 +246,39 @@ export default {
   padding-top: 2%;
   position: relative;
 }
+.greeting-container {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #188754, #d6f6d5); /* Gradient background */
+  padding: 40px;
+  border-radius: 10px;
+  margin: 20px 30px;
+}
+.greeting-text {
+  text-align: left; /* Align text to the left */
+  margin-left: 20px;
+}
+.greeting-text h1 {
+  font-size: 2rem; /* Smaller font size */
+  color: white;;
+  margin: 0;
+}
 
+.greeting-text p {
+  color: white;
+  font-size: 1rem; /* Smaller font size */
+  margin: 3px 0 0;
+}
+
+.greeting-image {
+  position: absolute;
+  right: -30px; /* Adjust as needed to control overlap */
+  width: 300px; /* Increase width to make it larger */
+  height: auto;
+  margin-right: 15%;
+
+
+}
 .wrapper {
   overflow-y: hidden;
 }

@@ -3,7 +3,7 @@
     <div class="top-container">
       <h1 class="bg-title">Records</h1>
       <div class="patient">
-        <i class="fas fa-file-medical"></i>
+        <i class="fas fa-history"></i>
         <span class="text">History</span>
         <hr />
       </div>

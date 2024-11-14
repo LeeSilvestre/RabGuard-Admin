@@ -1,15 +1,16 @@
 <template>
-    <div class="top-container">
-      <h1 class="bg-title">Patient Management</h1>
-      <div class="patient">
-        <span class="text">Patients</span>
-        <i class="fas fa-chart-bar"></i>
-        <hr />
-      </div>
+  <div class="top-container">
+    <h1 class="bg-title">Patient Management</h1>
+    <div class="patient">
+      <span class="text">Patients</span>
+      <i class="fas fa-chart-bar"></i>
+      <hr />
     </div>
+  </div>
+
   <div class="patients-list-container">
     <div class="title-container">
-      <button class="add-button" @click="showAddModal = true">Add</button>
+      <button class="add-button" @click="showAddModal = true">Add Patient</button>
     </div>
     <div class="table-container">
       <table>
@@ -20,7 +21,7 @@
             <th>ADDRESS</th>
             <th>GENDER</th>
             <th>CONTACT NUMBER</th>
-            <th>EDIT</th>
+            <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
@@ -37,57 +38,52 @@
         </tbody>
       </table>
     </div>
-    </div>
-    <!--EDIT MODAL-->
-    <div class="modal" v-if="showEditModal">
-      <div class="modal-content">
-        <h2>Edit Patient</h2>
-        <div class="form-columns">
-          <!-- Left Column -->
-          <div class="form-column">
-            <div class="form-group">
-              <label for="edited-fname">First Name</label>
-              <input type="text" id="edited-fname" v-model="editedPatient.fname" required>
-            </div>
+  </div>
 
-            <div class="form-group">
-              <label for="edited-lname">Last Name</label>
-              <input type="text" id="edited-lname" v-model="editedPatient.lname" required>
-            </div>
-
-            <div class="form-group">
-              <label for="edited-ddress">Address</label>
-              <input type="text" id="edited-address" v-model="editedPatient.address" required>
-            </div>
+  <!-- Edit Modal -->
+  <div class="modal" v-if="showEditModal">
+    <div class="modal-content">
+      <h2>Edit Patient</h2>
+      <div class="form-columns">
+        <!-- Left Column -->
+        <div class="form-column">
+          <div class="form-group">
+            <label for="edited-fname">First Name</label>
+            <input type="text" id="edited-fname" v-model="editedPatient.fname" required />
           </div>
-
-          <!-- Right Column -->
-          <div class="form-column">
-            <div class="form-group">
-              <label for="edited-mname">Middle Name</label>
-              <input type="text" id="edited-mname" v-model="editedPatient.mname">
-            </div>
-
-            <div class="form-group">
-              <label for="edited-extension">Extension</label>
-              <input type="text" id="edited-extension" v-model="editedPatient.extension">
-            </div>
-
-            <div class="form-group">
-              <label for="edited-contact">Contact Number</label>
-              <input type="text" id="edited-contact" v-model="editedPatient.contact" required>
-            </div>
+          <div class="form-group">
+            <label for="edited-lname">Last Name</label>
+            <input type="text" id="edited-lname" v-model="editedPatient.lname" required />
+          </div>
+          <div class="form-group">
+            <label for="edited-address">Address</label>
+            <input type="text" id="edited-address" v-model="editedPatient.address" required />
           </div>
         </div>
-
-        <div class="button-group">
-          <button type="submit" @click="submitEdit" class="submit-button">Update</button>
-          <button class="cancel-button" @click="showEditModal = false">Cancel</button>
+        <!-- Right Column -->
+        <div class="form-column">
+          <div class="form-group">
+            <label for="edited-contact">Contact Number</label>
+            <input type="text" id="edited-contact" v-model="editedPatient.contact" required />
+          </div>
+          <div class="form-group">
+            <label for="edited-sex">Gender</label>
+            <select id="edited-sex" v-model="editedPatient.sex" required>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
         </div>
       </div>
+      <div class="button-group">
+        <button type="button" class="submit-button" @click="submitEdit">Update</button>
+        <button type="button" class="cancel-button" @click="showEditModal = false">Cancel</button>
+      </div>
     </div>
-    <!--ADD MODAL-->
-    <div class="modal" v-if="showAddModal">
+  </div>
+
+  <!-- Add Modal -->
+  <div class="modal" v-if="showAddModal">
     <div class="modal-content">
       <h2>Add New Patient</h2>
       <div class="form-columns">
@@ -95,65 +91,35 @@
         <div class="form-column">
           <div class="form-group">
             <label for="fname">First Name</label>
-            <input type="text" id="fname" v-model="newPatient.fname" required>
+            <input type="text" id="fname" v-model="newPatient.fname" required />
           </div>
-
           <div class="form-group">
             <label for="lname">Last Name</label>
-            <input type="text" id="lname" v-model="newPatient.lname" required>
+            <input type="text" id="lname" v-model="newPatient.lname" required />
           </div>
-
-          <div class="form-group">
-            <label for="sex">Gender</label>
-            <select id="sex" v-model="newPatient.sex" required>
-              <option value="Male">male</option>
-              <option value="Female">female</option>
-            </select>
-          </div>
-
           <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" id="address" v-model="newPatient.address" required>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" v-model="newPatient.email" required>
+            <input type="text" id="address" v-model="newPatient.address" required />
           </div>
         </div>
-
         <!-- Right Column -->
         <div class="form-column">
           <div class="form-group">
-            <label for="mname">Middle Name</label>
-            <input type="text" id="mname" v-model="newPatient.mname">
+            <label for="sex">Gender</label>
+            <select id="sex" v-model="newPatient.sex" required>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
-
-          <div class="form-group">
-            <label for="extension">Extension</label>
-            <input type="text" id="extension" v-model="newPatient.extension">
-          </div>
-
           <div class="form-group">
             <label for="contact">Contact Number</label>
-            <input type="text" id="contact" v-model="newPatient.contact" required>
-          </div>
-
-          <div class="form-group">
-            <label for="birthdate">Birthdate</label>
-            <input type="date" id="birthdate" v-model="newPatient.birthdate" required>
-          </div>
-
-          <label for="password">Password</label>
-          <div class="form-group">
-            <input type="password" id="password" v-model="newPatient.password" required>
+            <input type="text" id="contact" v-model="newPatient.contact" required />
           </div>
         </div>
       </div>
-
       <div class="button-group">
-        <button type="submit" @click=submitForm class="submit-button">Submit</button>
-        <button class="cancel-button" @click="showAddModal = false">Cancel</button>
+        <button type="button" class="submit-button" @click="submitForm">Submit</button>
+        <button type="button" class="cancel-button" @click="showAddModal = false">Cancel</button>
       </div>
     </div>
   </div>

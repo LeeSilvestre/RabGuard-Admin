@@ -444,7 +444,7 @@ hr {
 }
 .dropdown-button {
   margin-top: 10px;
-  background-color: #0f8444;; /* Bootstrap primary color */
+  background-color: #007bff; /* Bootstrap primary color */
   color: white;
   border: none;
   border-radius: 5px;
@@ -454,7 +454,7 @@ hr {
 }
 
 .dropdown-button:hover {
-  background-color: #19c366; /* Darker blue on hover */
+  background-color: #0056b3; /* Darker blue on hover */
 }
 /* Align exposure details to the left */
 .exposure-detail {

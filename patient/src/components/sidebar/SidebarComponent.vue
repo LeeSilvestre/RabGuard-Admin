@@ -47,9 +47,9 @@ export default {
     </div>
     
     <div class="separator"></div>
-    <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
+    <SidebarLink to="/dashboard" icon="fas fa-chart-bar">Dashboard</SidebarLink>
     <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
-    <SidebarLink to="/request" icon="fas fa-bell-concierge">Request Record</SidebarLink>
+    <SidebarLink to="/request" icon="fas fa-chart-line">Request Record</SidebarLink>
     <SidebarLink to="/vaccine" icon="fas fa-syringe">Vaccine Record</SidebarLink>
     <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
     <div class="separator"></div>

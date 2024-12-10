@@ -5,7 +5,7 @@
     <div class="top-container">
       <h1 class="bg-title">Record</h1>
       <div class="patient">
-        <i class="fas fa-syringe"></i>
+        <i class="fas fa-notes-medical"></i>
         <span class="text">Vaccine</span>
         <hr />
       </div>
@@ -104,7 +104,7 @@ export default {
     downloadPDF() {
   const doc = new jsPDF("p", "mm", "a4");
 
-  const primaryColor = [0, 0, 0]; 
+  const primaryColor = [0, 102, 204]; // Dark blue color
   const lightGray = [240, 240, 240]; // Light gray for sections
 
   // Adding logo and header

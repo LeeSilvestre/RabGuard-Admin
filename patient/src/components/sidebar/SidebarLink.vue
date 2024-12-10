@@ -41,30 +41,16 @@ export default {
   height: 1.5em;
   color: white;
   text-decoration: none;
-  transition: transform 0.3s ease-in-out;
-}
-
-.link::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 5px; /* Adjust width as needed */
-  height: 100%;
-  background-color: white;
-  transform: scaleY(0); /* Start hidden */
-  transition: transform 0.3s ease-in-out;
-}
-
-.link:hover::before {
-  transform: scaleY(1); /* Expand vertically on hover */
 }
 
 .link:hover {
-  transform: scale(1.1); /* Zoom effect on link */
+  background-color: white;
+  color: black;
 }
 
-.link.active::before {
-  transform: scaleY(1); /* Keep hover effect for active links */
+.link.active {
+  background-color: white;
+  color: black;
 }
 
 .link .icon {

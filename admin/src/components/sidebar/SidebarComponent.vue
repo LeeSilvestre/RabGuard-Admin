@@ -107,13 +107,14 @@ export default {
   padding: 10px;
   text-decoration: none;
   color: white;
-  transition: background-color 0.5s, transform 0.3s ease-in-out; /* Added transform transition */
+  transition: background-color 0.5s;
   font-family: var(--font-family);
 }
 
 .sidebar-link:hover {
   background-color: var(--sidebar-item-hover);
 }
+
 .link.active {
   background-color: var(--sidebar-item-active);
 }

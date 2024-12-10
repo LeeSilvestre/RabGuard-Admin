@@ -36,9 +36,23 @@
                 <label for="address">Address</label>
                 <select id="source" v-model="newPatient.address" required>
                   <option value="Asinan">Asinan</option>
-                  <option value="Banicain">Banicain</option>
-                  <option value="Barretto">Barretto</option>
-                  <!-- Add more options as necessary -->
+            <option value="Banicain">Banicain</option>
+            <option value="Barretto">Barretto</option>
+            <option value="New Cabalan">New Cabalan</option>
+            <option value="Old Cabalan">Old Cabalan</option>
+            <option value="East Bajac-Bajac">East Bajac-Bajac</option>
+            <option value="East Tapinac">East Tapinac</option>
+            <option value="Gordon Heights">Gordon Heights</option>
+            <option value="New Ilalim">New Ilalim</option>
+            <option value="New Kababae">New Kababae</option>
+            <option value="Kalaklan">Kalaklan</option>
+            <option value="New Kalalake">New Kalalake</option>
+            <option value="Mabayuan">Mabayuan</option>
+            <option value="Pag-Asa">Pag-Asa</option>
+            <option value="Sta. Rita">Sta. Rita</option>
+            <option value="West Bajac-Bajac">West Bajac-Bajac</option>
+            <option value="West Tapinac">West Tapinac</option>
+            <option value="Others">Others</option>
                 </select>
               </div>
 

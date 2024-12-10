@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="infographic-container">
       <div class="left-container">
-        <h1>Do's And Don'ts``
+        <h1>Do's And Don'ts
         </h1>
         <img src="@/assets/Rabies.png" alt="Animal Bite Infographic">
       </div>

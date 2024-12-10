@@ -1,14 +1,33 @@
 <script>
-import SidebarLink from './SidebarLink'
-import { collapsed, toggleSidebar, sidebarWidth } from './state'
+import { mapState } from 'vuex';
+import SidebarLink from './SidebarLink';
+import { collapsed, toggleSidebar, sidebarWidth } from './state';
 
 export default {
   props: {},
   components: { SidebarLink },
   setup() {
-    return { collapsed, toggleSidebar, sidebarWidth }
+    return {  
+      collapsed,
+      toggleSidebar,
+      sidebarWidth,
+    };
+  },
+  computed: {
+  ...mapState(["user"]),
+  loggedInPatient() {
+    if (this.user && this.patients) {
+      return this.patients.find(patient => patient.user_id === this.user.user_id) || {};
+    }
+    return {}; // Return an empty object if user or patients are not available
+  },
+},
+  mounted() {
+  if (!this.user) {
+    this.$store.dispatch('fetchUser'); // Dispatch action to load user
   }
 }
+};
 </script>
 
 <template>
@@ -17,6 +36,16 @@ export default {
     <div class="logo-container" :style="{ width: collapsed ? '50px' : '200px' }">
       <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" :style="{ width: collapsed ? '100%' : '150px' }">
     </div>
+    
+    <!-- Username and address section with separator -->
+    <div class="username-container">
+      <div class="username">
+        <p>{{ user ? user.fname || 'Guest' : 'Loading...' }} {{ user ? user.lname || '' : '' }}</p>
+        <div class="separator"></div>
+        <p>{{ user.address || '' }}</p>
+      </div>
+    </div>
+    
     <div class="separator"></div>
     <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
     <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
@@ -76,14 +105,28 @@ export default {
   transition: width 0.5s ease;
 }
 
-.links {
-  flex-grow: 1;
+.username-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.username {
+  text-align: center;
+  margin: 0;
+}
+
+.username p {
+  margin: 0;
+  font-size: 1.3em;
 }
 
 .separator {
   height: 2px;
   background-color: rgba(255, 255, 255, 0.2);
-  margin: .5rem 0;
+  width: 100%;
 }
 
 .sidebar-link {

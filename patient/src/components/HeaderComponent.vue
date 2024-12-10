@@ -4,20 +4,32 @@
     <div class="header-content">
       <p>{{ currentDate }}</p>
       <div class="username">
-        <p>Username</p>
+        <!-- Dynamically display the username -->
+        <p>{{ user.fname || 'Guest' }}</p>
       </div>
     </div>
   </header>
 </template>
 
-
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  name: 'HeaderComponent',
+  name: 'PatientsList',
   data() {
     return {
+      patients: [],
       currentDate: ''
     };
+  },
+  computed: {
+    ...mapState(["user"]),
+    loggedInPatient() {
+  if (this.user && this.patients) {
+    return this.patients.find(patient => patient.user_id === this.user.user_id) || {};
+  }
+  return {};
+}
   },
   mounted() {
     this.updateTime();
@@ -135,4 +147,3 @@ export default {
 }
 
 </style>
-

@@ -5,7 +5,7 @@
       <p>{{ currentDate }}</p>
       <div class="username">
         <!-- Dynamically display the username -->
-        <p>{{ user.fname || 'Guest' }}</p>
+        <p>{{ user?.fname || 'Guest' }}</p>
       </div>
     </div>
   </header>

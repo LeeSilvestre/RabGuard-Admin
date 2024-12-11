@@ -12,9 +12,24 @@
   <div class="patients-list-container">
     <div class="title-container">
       <div class="search-container">
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" v-model="searchQuery" placeholder="Search Patients" class="search-bar">
-      </div>
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Search Patients"
+            class="search-bar"
+          />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+      <div class="filter-container">
+        <i class="fas fa-filter filter-icon"></i>
+      <label for="timeFilter"></label>
+      <select id="timeFilter" v-model="timeFilter" @change="applyTimeFilter">
+        <option value="all">All</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </div>
     </div>
 
     <div class="patients-container">
@@ -28,7 +43,6 @@
             <div><strong>VACC ID:</strong> {{ patient.vacc_id }}</div>
           </div>
 
-          <!-- Patient Basic Info -->
           <div class="text-info">
             <div><strong>NAME:</strong> {{ fullName(patient) }}</div>
             <div><strong>AGE:</strong> {{ calculateAge(patient.birthdate) }}</div>
@@ -38,12 +52,10 @@
           </div>
         </div>
 
-        <!-- Dropdown Button -->
         <button @click="toggleExposure(index)" class="dropdown-button">
           {{ showExposure[index] ? 'Hide Exposure Details' : 'Show Exposure Details' }}
         </button>
 
-        <!-- Exposure Details and Schedules (Two Columns) -->
         <div v-if="showExposure[index]" class="exposure-schedules-container">
           <div class="exposure-info">
             <div class="exposure-detail"><strong>Date of Exposure:</strong> {{ formatDate(patient.expdate) }}</div>
@@ -76,6 +88,7 @@ export default {
   data() {
     return {
       currentTime: '',
+      timeFilter: 'all',
       patients: [],
       showAddModal: false,
       showEditModal: false,
@@ -110,11 +123,44 @@ export default {
   },
   computed: {
     filteredPatients() {
-      return this.patients
-        .filter(patient => patient.status == 4 && this.matchesSearchQuery(patient))
-        .sort((a, b) => new Date(b.is_done) - new Date(a.is_done));
+    let filtered = this.patients;
+
+    // Apply search filter
+    if (this.searchQuery) {
+      filtered = filtered.filter(patient =>
+        this.fullName(patient).toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     }
-  },
+
+    // Apply time filter
+    if (this.timeFilter !== 'all') {
+      const now = new Date();
+      filtered = filtered.filter(patient => {
+        const expDate = new Date(patient.expdate);
+        switch (this.timeFilter) {
+          case 'weekly': {
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(now.getDate() - 7);
+            return expDate >= oneWeekAgo && expDate <= now;
+          }
+          case 'monthly': {
+            return (
+              expDate.getMonth() === now.getMonth() &&
+              expDate.getFullYear() === now.getFullYear()
+            );
+          }
+          case 'yearly': {
+            return expDate.getFullYear() === now.getFullYear();
+          }
+          default:
+            return true;
+        }
+      });
+    }
+
+    return filtered;
+  }
+},
   methods: {
     getPatientImage(userPhoto) {
         try {
@@ -364,6 +410,7 @@ export default {
   display: flex;
   align-items: center;
   flex: 1;
+  height: 100%;
 }
 
 .history .text {
@@ -442,6 +489,7 @@ hr {
  border-width: 1px 1px 1px 6px;
  border-radius: 10px;
 }
+
 .dropdown-button {
   margin-top: 10px;
   background-color: #007bff; /* Bootstrap primary color */
@@ -484,6 +532,18 @@ hr {
   margin-bottom: 10px;
   background-color: white;
   text-align: left;
+}
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between label, icon, and dropdown */
+  width:12%;
+}
+
+.filter-icon {
+  font-size: 1.5em; /* Adjust size as needed */
+  color: #666; /* Adjust color to match your theme */
+  margin-left: 10px;
 }
 @media (max-width: 768px) {
   .patients-container {
@@ -564,28 +624,39 @@ hr {
 }
 
 .search-container {
+  display: flex;
+  align-items: center;
   position: relative;
-  display: inline-block;
-  width: 100%;
-  max-width: 400px;
+  width: 100%; /* Adjust width as needed */
+  max-width: 400px; /* Optional: Limit the width of the search bar */
 }
 
 .search-bar {
   width: 100%;
-  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Adjust padding to fit the icon */
-  box-sizing: border-box;
-  margin-left: 50px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  transition: box-shadow 0.3s; /* Add transition for hover effect */
+  padding: 10px 40px 10px 15px; /* Adjust padding for icon space */
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Rounded edges for modern look */
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  margin-left: 125px;
+}
+
+.search-bar:focus {
+  border-color: #169d53; /* Highlight color on focus */
 }
 
 .search-icon {
   position: absolute;
-  top: 50%;
-  left: 0.75rem;
-  transform: translateY(-50%);
-  color: black;
-  margin-left: 20px;
+  right: 15px; /* Align icon inside the search bar */
+  color: #aaa; /* Icon color */
+  font-size: 18px; /* Icon size */
+  cursor: pointer;
+}
+
+.search-bar:hover + .search-icon,
+.search-bar:focus + .search-icon {
+  color: #169d53; /* Icon color on hover or focus */
 }
 
 .edit-button {

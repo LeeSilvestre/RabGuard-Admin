@@ -8,6 +8,14 @@
       </div>
     </div>
     <div class="wrapper">
+            <!-- Slimmer greeting container with aligned text and overlapping image -->
+            <div class="greeting-container">
+        <div class="greeting-text">
+          <h1>Good Morning, Admin!</h1>
+          <p>Have a nice day at work</p>
+        </div>
+        <img src="@/assets/working.svg" alt="Person working on laptop" class="greeting-image" />
+      </div>
       <div class="stats-cards">
         <div class="stat-card">
           <div class="icon-container">
@@ -23,8 +31,8 @@
             <i class="fas fa-user-check"></i>
           </div>
           <div class="text-container">
-            <h2>Today Patients</h2>
-            <span>{{ todayPatients }}</span> <!-- Dynamic value -->
+            <h2>Queue Patients</h2>
+            <span>{{ QueuedPatients }}</span> <!-- Dynamic value -->
           </div>
         </div>
         <div class="stat-card">
@@ -33,7 +41,7 @@
           </div>
           <div class="text-container">
             <h2>Today Appointments</h2>
-            <span>085</span>
+            <span>{{ todayAppointmentsCount }}</span>
           </div>
         </div>
       </div>
@@ -145,6 +153,12 @@ export default {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       return this.appointments.slice(start, start + this.itemsPerPage);
     },
+    todayAppointmentsCount() {
+    // Count appointments from the filtered list or logic specific to "today"
+    return this.appointments.filter(
+      appointment => appointment.status.toLowerCase() === 'on going' // Adjust filter logic if needed
+    ).length;
+  }
   },
   methods: {
     async fetchTotalPatients() {
@@ -237,11 +251,42 @@ export default {
   padding-top: 2%;
   position: relative;
 }
+.greeting-container {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #188754, #d6f6d5); /* Gradient background */
+  padding: 40px;
+  border-radius: 10px;
+  margin: 20px 30px;
+}
+.greeting-text {
+  text-align: left; /* Align text to the left */
+  margin-left: 20px;
+}
+.greeting-text h1 {
+  font-size: 2rem; /* Smaller font size */
+  color: white;;
+  margin: 0;
+}
 
+.greeting-text p {
+  color: white;
+  font-size: 1rem; /* Smaller font size */
+  margin: 3px 0 0;
+}
+
+.greeting-image {
+  position: absolute;
+  right: -30px; /* Adjust as needed to control overlap */
+  width: 300px; /* Increase width to make it larger */
+  height: auto;
+  margin-right: 15%;
+
+
+}
 .wrapper {
   overflow-y: hidden;
 }
-
 .dashboard {
   display: flex;
   align-items: center;

@@ -197,6 +197,7 @@ html, body {
   border-radius: 5px;
   transition: background-color 0.3s, transform 0.2s;
   margin-left: auto; /* Keep the register button on the right */
+  text-decoration: none;
 }
 
 .register-btn:hover {

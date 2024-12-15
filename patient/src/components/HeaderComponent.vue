@@ -19,17 +19,19 @@ export default {
   data() {
     return {
       patients: [],
-      currentDate: ''
+      currentDate: '',
     };
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user']),
     loggedInPatient() {
-  if (this.user && this.patients) {
-    return this.patients.find(patient => patient.user_id === this.user.user_id) || {};
-  }
-  return {};
-}
+      if (this.user && this.patients) {
+        return this.patients.find(
+          (patient) => patient.user_id === this.user.user_id
+        ) || {};
+      }
+      return {};
+    },
   },
   mounted() {
     this.updateTime();
@@ -38,13 +40,18 @@ export default {
   methods: {
     updateTime() {
       const date = new Date();
-      const options = { 
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-        hour: 'numeric', minute: 'numeric', second: 'numeric' 
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
       };
       this.currentDate = date.toLocaleDateString('en-US', options);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -108,42 +115,8 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .header-bar .header-content {
-    margin-left: 20px; /* Even smaller margin for mobile screens */
-    flex-direction: column; /* Stack items vertically on small screens */
-    align-items: flex-start;
-  }
-
-  .header-bar i {
-    font-size: 16px; /* Even smaller icon */
-    margin-right: 8px; /* Smaller margin */
-  }
-
-  .header-bar p {
-    font-size: 16px; /* Adjust text size */
-  }
-
-  .header-bar .username p {
-    font-size: 14px; /* Even smaller username font size */
+  .header-bar {
+    display: none; /* Hide the header bar on mobile screens */
   }
 }
-
-@media (max-width: 480px) {
-  .header-bar .header-content {
-    margin-left: 10px; /* Reduce margin even further on very small screens */
-  }
-
-  .header-bar i {
-    font-size: 14px; /* Very small icon size */
-  }
-
-  .header-bar p {
-    font-size: 14px; /* Adjust text size for very small screens */
-  }
-
-  .header-bar .username p {
-    font-size: 12px; /* Smallest username font size */
-  }
-}
-
 </style>

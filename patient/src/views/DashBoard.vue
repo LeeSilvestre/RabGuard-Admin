@@ -2,8 +2,7 @@
   <div class="dashboard">
     <div class="infographic-container">
       <div class="left-container">
-        <h1>Do's And Don'ts
-        </h1>
+        <h1>Do's And Don'ts</h1>
         <img src="@/assets/Rabies.png" alt="Animal Bite Infographic">
       </div>
       <div class="right-container">
@@ -15,13 +14,10 @@
             </ul>
           </div>
           <div v-else>
-          </div>
-          <!-- Card inside top-container -->
-          <div class="card">
-            <h3>
-              <i class="fas fa-comment-dots top-card-icon"></i>
-            </h3>
-            <p>Aw. Snap! No Announcement posted.</p>
+            <div class="card">
+              <h3><i class="fas fa-comment-dots top-card-icon"></i></h3>
+              <p>Aw. Snap! No Announcement posted.</p>
+            </div>
           </div>
         </div>
         <div class="bottom-container">
@@ -32,11 +28,10 @@
             </ul>
           </div>
           <div v-else>
-          </div>
-          <!-- Card inside bottom-container -->
-          <div class="card">
-            <div class="status">
-              <i class="fas fa-spinner fa-spin"></i> Processing
+            <div class="card">
+              <div class="status">
+                <i class="fas fa-spinner fa-spin"></i> Processing
+              </div>
             </div>
           </div>
         </div>
@@ -58,6 +53,7 @@ export default {
 </script>
 
 <style scoped>
+/* General Layout */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -70,94 +66,65 @@ export default {
   flex-direction: column;
   width: 100%;
   max-width: 1200px;
+  gap: 20px; /* Add spacing between sections */
 }
 
 .left-container {
   flex: 1;
   text-align: center;
   font-family: Arial, sans-serif;
-  margin-right: 10px;
 }
 
 h1 {
   color: #2c3e50;
-  margin-left: 50px;
+  margin-bottom: 20px;
 }
 
 img {
   max-width: 100%;
   height: auto;
-  margin-left: 40px;
+  border-radius: 10px; /* Add rounded corners to the image */
 }
 
 .right-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 100%;
+  gap: 20px;
 }
 
-.top-container, .bottom-container {
+.top-container,
+.bottom-container {
   background-color: #339933;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
-  font-size: 20px;
-  text-align: left;
-  margin-top: 80px;
-}
-.bottom-container {
-  margin-bottom: 300px;
+  font-size: 18px;
 }
 
-h2 {
-  margin-top: 0;
-  color: white;
-  font-size: 20px;
-}
-
-ul {
-  padding-left: 20px;
-  list-style-type: disc;
-}
-
-/* Card Styles */
+/* Announcement and Queue Card Styles */
 .card {
   background-color: white;
   padding: 20px;
-  margin-top: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 }
 
 .card h3 {
-  margin-top: 0;
   font-size: 24px;
   color: #2c3e50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card h3 i {
-  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .card p {
   font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .status {
-  margin-top: 10px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,80 +134,56 @@ ul {
   margin-right: 10px;
 }
 
-/* Specific styles for the top card icon */
+/* Specific Styles for Icons */
 .top-card-icon {
-  font-size: 70px; /* Adjust the size as needed */
+  font-size: 60px;
+  color: #339933;
 }
 
-/* Responsive styles */
+/* Responsive Design */
 @media (min-width: 768px) {
   .infographic-container {
     flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
   }
 
   .right-container {
-    width: 50%;
-  }
-
-  .top-container, .bottom-container {
-    width: 100%;
-  }
-
-  .left-container img {
-    margin-left: 0;
+    width: 60%;
   }
 }
 
 @media (max-width: 767px) {
-  .infographic-container {
-    flex-direction: column;
-  }
-
   .left-container h1 {
-    margin-left: 0;
-    font-size: 24px; /* Adjusted font size for mobile */
+    font-size: 22px;
+    margin-bottom: 10px;
   }
 
   .left-container img {
-    margin-left: 0;
-    max-width: 90%; /* Scale down image size for mobile */
+    max-width: 90%;
+    margin: 0 auto;
   }
 
   .right-container {
     width: 100%;
   }
 
-  .top-container, .bottom-container {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 20px;
-    padding: 15px; /* Adjust padding for mobile */
-  }
-
-  .top-container h2, .bottom-container h2 {
-    font-size: 18px; /* Adjust font size */
-  }
-
-  .card {
-    padding: 15px; /* Adjust card padding */
+  .top-container,
+  .bottom-container {
+    font-size: 16px;
+    padding: 15px;
   }
 
   .card h3 {
-    font-size: 20px; /* Adjust heading font size */
+    font-size: 20px;
   }
 
   .card p {
-    font-size: 14px; /* Adjust paragraph font size */
+    font-size: 14px;
   }
 
-  .bottom-container {
-    margin-bottom: 20px; /* Adjust margin for better spacing */
-  }
-
-  /* Adjust the icon size for smaller screens */
   .top-card-icon {
     font-size: 50px;
   }
 }
-
 </style>

@@ -7,9 +7,9 @@
         <span class="text">Profile</span>
         <hr />
       </div>
-      <button class="edit-button" @click="editPatient(loggedInPatient)">Update</button>
     </div>
     <div class="display-container">
+      <h2 class="section-title"> <i class="fas fa-user"></i>Personal Information</h2>
       <div class="form-columns" v-for="patient in patients" :key="patient.id">
         <div class="form-column">
           <div class="form-group">
@@ -74,6 +74,8 @@
               <div class="box-content">*******</div>
             </div>
           </div>
+          <br>
+          <button class="edit-button" @click="editPatient(loggedInPatient)">Update</button>
         </div>
       </div>
     </div>
@@ -314,26 +316,76 @@ hr {
 
 .display-container {
   margin-top: 60px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative; /* Enable positioning for child elements */
+}
+
+.edit-button {
+  position: absolute; /* Position relative to the container */
+  bottom: 20px; /* Distance from the bottom */
+  right: 30px; /* Distance from the right */
+  background-color: #188754;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #0f6c44;
 }
 
 .box {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-style: solid;
-  border-color: #169d53;
-  border-width: 1px 1px 1px 6px;
-  border-radius: 10px;
+  border: 1px solid #e0e0e0; /* Light gray border for a subtle look */
+  border-radius: 10px; /* Slightly larger radius for a smoother appearance */
+  background-color: #ffffff;
+  padding: 20px; /* Increased padding for better spacing */
+  margin-bottom: 20px; /* Consistent margin with other components */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Soft shadows */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Added smooth transformation */
+}
+
+.box:hover {
+  background-color: #f8fcf8; /* Subtle green tint for hover effect */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.08); /* Enhance shadow on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
 }
 
 .box label {
-  font-weight: bold;
+  font-weight: 600; /* Slightly lighter font weight for a polished look */
+  color: #333; /* Neutral color for better contrast */
 }
 
 .box-content {
-  margin-top: 5px;
+  font-size: 1rem;
+  font-weight: 400; /* Standard font weight for content */
+  color: #555; /* Softer text color for readability */
   min-height: 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #188754;
+  display:flex;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #188754;
+  padding-bottom: 10px;
+  gap:10px;
+}
+
+.section-title i {
+  color: #188754; /* Optional: Adjust icon color to match design */
+  font-size: 1.5rem; /* Adjust icon size */
 }
 
 .modal {
@@ -366,6 +418,8 @@ hr {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .submit-button:hover {
@@ -548,6 +602,92 @@ th {
     flex-direction: column; /* Stack buttons vertically in the modal */
     gap: 10px;
   }
+
+  /* Responsive Design for Mobile View */
+@media (max-width: 768px) {
+  .top-container {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+  }
+
+  .patient .text {
+    margin-left: 0;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+  }
+
+  .patient i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .display-container {
+    margin-top: 20px;
+    padding: 10px;
+  }
+
+  .form-columns {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .form-column {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .box {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .edit-button {
+    position: static;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    margin: 0 auto;
+    padding: 15px;
+  }
+
+  .form-columns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-column {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+}
+
 }
 
 </style>

@@ -1,43 +1,57 @@
 <script>
 import { mapState } from 'vuex';
 import SidebarLink from './SidebarLink';
+import { ref } from 'vue';
 import { collapsed, toggleSidebar, sidebarWidth } from './state';
 
 export default {
   props: {},
   components: { SidebarLink },
   setup() {
-    return {  
+    const isMobileSidebarOpen = ref(false); // Mobile-specific toggle state
+
+    const toggleMobileSidebar = () => {
+      isMobileSidebarOpen.value = !isMobileSidebarOpen.value;
+    };
+
+    return {
       collapsed,
       toggleSidebar,
       sidebarWidth,
+      isMobileSidebarOpen,
+      toggleMobileSidebar,
     };
   },
   computed: {
-  ...mapState(["user"]),
-  loggedInPatient() {
-    if (this.user && this.patients) {
-      return this.patients.find(patient => patient.user_id === this.user.user_id) || {};
-    }
-    return {}; // Return an empty object if user or patients are not available
+    ...mapState(['user']),
+    loggedInPatient() {
+      if (this.user && this.patients) {
+        return this.patients.find((patient) => patient.user_id === this.user.user_id) || {};
+      }
+      return {}; // Return an empty object if user or patients are not available
+    },
   },
-},
   mounted() {
-  if (!this.user) {
-    this.$store.dispatch('fetchUser'); // Dispatch action to load user
-  }
-}
+    if (!this.user) {
+      this.$store.dispatch('fetchUser'); // Dispatch action to load user
+    }
+  },
 };
 </script>
 
 <template>
-  <div class="sidebar" :style="{ width: sidebarWidth }">
-    <!-- Added logo -->
+  <!-- Sidebar Container -->
+  <div
+    class="sidebar"
+    :class="{ 'mobile-open': isMobileSidebarOpen }"
+    :style="{ width: isMobileSidebarOpen ? '200px' : sidebarWidth }"
+  >
+    <!-- Logo Section -->
     <div class="logo-container" :style="{ width: collapsed ? '50px' : '200px' }">
-      <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" :style="{ width: collapsed ? '100%' : '150px' }">
+      <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" :style="{ width: collapsed ? '100%' : '150px' }" />
     </div>
-    
-    <!-- Username and address section with separator -->
+
+    <!-- User Info -->
     <div class="username-container">
       <div class="username">
         <p>{{ user ? user.fname || 'Guest' : 'Loading...' }} {{ user ? user.lname || '' : '' }}</p>
@@ -45,7 +59,8 @@ export default {
         <p>{{ user.address || '' }}</p>
       </div>
     </div>
-    
+
+    <!-- Sidebar Links -->
     <div class="separator"></div>
     <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
     <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
@@ -54,24 +69,23 @@ export default {
     <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
     <div class="separator"></div>
 
+    <!-- Logout Link -->
     <div class="logout-link">
       <SidebarLink to="/login" icon="fas fa-sign-out-alt">Logout</SidebarLink>
     </div>
-    <span
-      class="collapse-icon"
-      :class="{ 'rotate-180': collapsed }"
-      @click="toggleSidebar"
-    >
-      <i class="fas fa-angle-double-left" />
-    </span>
   </div>
+
+  <!-- Mobile Toggle Button -->
+  <button class="mobile-toggle-btn" @click="toggleMobileSidebar">
+    <i :class="isMobileSidebarOpen ? 'fas fa-times' : 'fas fa-bars'"></i>
+  </button>
 </template>
 
 <style>
 :root {
   --sidebar-bg-color: #188754;
   --sidebar-item-hover: #188754;
-  --sidebar-item-active: #0a4d2c; /* Different color for active state */
+  --sidebar-item-active: #0a4d2c;
 }
 
 .sidebar {
@@ -83,15 +97,31 @@ export default {
   left: 0;
   bottom: 0;
   padding: 1em 0.5em;
-  transition: width 0.5s ease;
+  transition: width 0.5s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: auto; /* Enable vertical scrolling */
   font-family: var(--font-family);
-  border-top-right-radius: 15px ;
+  border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in WebKit browsers */
+}
+
+.sidebar {
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+.sidebar.mobile-open {
+  transform: translateX(0); /* Slide in on mobile when open */
+  overflow-y: auto; /* Add vertical scrolling for mobile view */
+}
+
+.sidebar:not(.mobile-open) {
+  transform: translateX(-100%); /* Slide out on mobile */
 }
 
 .logo-container {
@@ -110,12 +140,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
-}
-
-.username {
-  text-align: center;
-  margin: 0;
 }
 
 .username p {
@@ -127,34 +151,6 @@ export default {
   height: 2px;
   background-color: rgba(255, 255, 255, 0.2);
   width: 100%;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-  transition: background-color 0.5s;
-  font-family: var(--font-family);
-}
-
-.sidebar-link:hover {
-  background-color: var(--sidebar-item-hover);
-}
-
-.sidebar-link.router-link-active {
-  background-color: var(--sidebar-item-active); /* Use the defined variable for active state */
-}
-
-.link.active {
-  background-color: var(--sidebar-item-active);
-}
-
-.bottom-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1rem;
 }
 
 .collapse-icon {
@@ -169,28 +165,34 @@ export default {
   transform: rotate(180deg);
 }
 
-/* Media Queries for Responsive Design */
+/* Mobile Toggle Button */
+.mobile-toggle-btn {
+  position: fixed;
+  z-index: 3;
+  top: 10px;
+  left: 10px;
+  background: var(--sidebar-bg-color);
+  color: white;
+  border: none;
+  padding: 0.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+/* Media Queries for Mobile Devices */
 @media (max-width: 768px) {
   .sidebar {
-    width: 60px;
-  }
-  .logo-container {
-    text-align: center;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: center;
+    width: 200px;
+    overflow-y: auto; /* Ensure scrollability on smaller screens */
   }
 
-  .logo {
-    height: auto;
-    border-radius: 50%; /* Make it circular */
-    transition: width 0.5s ease;
+  .sidebar.mobile-open {
+    transform: translateX(0);
   }
-  .sidebar-link {
-    justify-content: center;
-  }
-  .sidebar-link span {
-    display: none;
+
+  .mobile-toggle-btn {
+    display: block;
   }
 }
 </style>

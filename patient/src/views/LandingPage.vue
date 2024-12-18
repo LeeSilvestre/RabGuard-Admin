@@ -1,17 +1,36 @@
 <template>
   <div id="app">
+    <!-- Header -->
     <header class="header">
       <div class="logo-container">
         <img :src="logo" alt="Rabguard Logo" />
         <h1>Rabguard</h1>
       </div>
-      <nav class="nav">
-    <router-link to="/" @click.prevent="scrollTo('home')">Home</router-link>
-    <router-link to="/" @click.prevent="scrollTo('features')">Features</router-link>
-    <router-link to="/" @click.prevent="scrollTo('about-section')">About Us</router-link>
-  </nav>
-  <router-link to="/login" class="register-btn">Register</router-link>
+
+      <!-- Navigation links (hidden on mobile) -->
+      <nav class="nav" v-show="!isMobile">
+        <router-link to="/" @click.prevent="scrollTo('home')">Home</router-link>
+        <router-link to="/" @click.prevent="scrollTo('features')">Features</router-link>
+        <router-link to="/" @click.prevent="scrollTo('about-section')">About Us</router-link>
+      </nav>
+
+      <!-- Register Button -->
+      <router-link to="/login" class="register-btn" v-show="!isMobile">Register</router-link>
+
+      <!-- Hamburger Menu (Mobile Only) -->
+      <button class="hamburger" @click="toggleSidebar" v-show="isMobile">
+        <i class="fas fa-bars"></i>
+      </button>
     </header>
+
+    <!-- Sidebar (Mobile) -->
+    <div class="sidebar" :class="{ 'active': sidebarOpen }" v-if="isMobile">
+      <button class="close-btn" @click="toggleSidebar">&times;</button>
+      <router-link to="/" @click="scrollTo('home')">Home</router-link>
+      <router-link to="/" @click="scrollTo('features')">Features</router-link>
+      <router-link to="/" @click="scrollTo('about-section')">About Us</router-link>
+      <router-link to="/login" class="register-btn">Register</router-link>
+    </div>
 
     <section class="home" id="home">
       <div class="home-content">
@@ -40,47 +59,47 @@
     </section>
 
     <section class="about-us" id="about-section">
-  <div class="container">
-    <div class="row about-row">
-      <div class="col-lg-6 about-image-container" data-aos="fade-up" data-aos-delay="100">
-        <img src="../assets/about.svg" alt="About Image" class="img-fluid about-image" />
-      </div>
-      <div class="col-lg-6 about-text-container" data-aos="fade-up" data-aos-delay="200">
-        <div class="about-card">
-          <div class="team-logos">
-            <img src="../assets/gclogo.png" alt="Gapo Logo" class="team-logo left-logo" />
-            <div class="heading-container">
-              <h2 class="heading">About Us</h2>
-              <h3 class="team-name">UNIFIED SYSTEM BUILDERS</h3> <!-- Team name moved inside this container -->
-            </div>
-            <img src="../assets/usblogo.png" alt="Unified System Builders Logo" class="team-logo right-logo" />
+      <div class="container">
+        <div class="row about-row">
+          <div class="col-lg-6 about-image-container" data-aos="fade-up" data-aos-delay="100">
+            <img src="../assets/about.svg" alt="About Image" class="img-fluid about-image" />
           </div>
-          <p>
-            We are a group of dedicated students from Gordon College, working on our Capstone project aimed at addressing real-world challenges in public health. Our app, the Patient Management and Vaccination Scheduling System for Animal Bite Patients, is designed to assist the Olongapo City Animal Bite Treatment Center (ABTC) in managing patient records and vaccination schedules more efficiently.
-          </p>
-          <p>
-            Our goal is to contribute to the local community by providing a digital solution that improves patient care, enhances vaccine management, and ultimately helps in the prevention of rabies.
-          </p>
-          <h4>Team Composition</h4>
-          <ul class="list-unstyled ul-check primary">
-            <li>Mr. Lanpher Josh Garcia</li>
-            <li>Mr. Lee Silvestre</li>
-            <li>Mr. Joseph David Linobo</li>
-          </ul>
+          <div class="col-lg-6 about-text-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="about-card">
+              <div class="team-logos">
+                <img src="../assets/gclogo.png" alt="Gapo Logo" class="team-logo left-logo" />
+                <div class="heading-container">
+                  <h2 class="heading">About Us</h2>
+                  <h3 class="team-name">UNIFIED SYSTEM BUILDERS</h3> <!-- Team name moved inside this container -->
+                </div>
+                <img src="../assets/usblogo.png" alt="Unified System Builders Logo" class="team-logo right-logo" />
+              </div>
+              <p>
+                We are a group of dedicated students from Gordon College, working on our Capstone project aimed at addressing real-world challenges in public health. Our app, the Patient Management and Vaccination Scheduling System for Animal Bite Patients, is designed to assist the Olongapo City Animal Bite Treatment Center (ABTC) in managing patient records and vaccination schedules more efficiently.
+              </p>
+              <p>
+                Our goal is to contribute to the local community by providing a digital solution that improves patient care, enhances vaccine management, and ultimately helps in the prevention of rabies.
+              </p>
+              <h4>Team Composition</h4>
+              <ul class="list-unstyled ul-check primary">
+                <li>Mr. Lanpher Josh Garcia</li>
+                <li>Mr. Lee Silvestre</li>
+                <li>Mr. Joseph David Linobo</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<footer class="footer">
-  <p>&copy; 2024 Rabguard. All rights reserved.</p>
-  <div class="social-container"> <!-- Added container for social links -->
-    <a href="https://www.facebook.com/profile.php?id=61565599327030" target="_blank" class="social-link">
-      <i class="fab fa-facebook-f"></i> <!-- Font Awesome Facebook Icon -->
-    </a>
-  </div>
-</footer>
+    <footer class="footer">
+      <p>&copy; 2024 Rabguard. All rights reserved.</p>
+      <div class="social-container"> <!-- Added container for social links -->
+        <a href="https://www.facebook.com/profile.php?id=61565599327030" target="_blank" class="social-link">
+          <i class="fab fa-facebook-f"></i> <!-- Font Awesome Facebook Icon -->
+        </a>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -88,22 +107,42 @@
 export default {
   data() {
     return {
-    logo: require('../assets/rabguardlogo.png'),
-    features: [
-      { id: 1, title: 'Request Vaccination Form', description: '"Allows users to submit requests for vaccination appointments, streamlining the process for both patients and clinic staff."', icon: 'fas fa-file-alt' },
-      { id: 2, title: 'Treatment Tracking', description: '"Enables users to track their personal treatment schedules and receive notifications on upcoming vaccinations or follow-ups."', icon: 'fas fa-calendar-check' },
-      { id: 3, title: 'User Profile', description: '"A personalized dashboard where users can view and update their personal information, vaccination history, and scheduled appointments."', icon: 'fas fa-user-circle' },
-      { id: 4, title: 'Medical Records', description: '"Provides a comprehensive record of past appointments, treatments, and vaccinations, allowing users and administrators to review previous medical interactions and ensure that all treatments are properly documented and completed."', icon: 'fas fa-notes-medical' },
-    ],
-  };
-},
+      logo: require('../assets/rabguardlogo.png'),
+      sidebarOpen: false, // Sidebar visibility
+      windowWidth: window.innerWidth,  // Track the window width
+      features: [
+        { id: 1, title: 'Request Vaccination Form', description: '"Allows users to submit requests for vaccination appointments, streamlining the process for both patients and clinic staff."', icon: 'fas fa-file-alt' },
+        { id: 2, title: 'Treatment Tracking', description: '"Enables users to track their personal treatment schedules and receive notifications on upcoming vaccinations or follow-ups."', icon: 'fas fa-calendar-check' },
+        { id: 3, title: 'User Profile', description: '"A personalized dashboard where users can view and update their personal information, vaccination history, and scheduled appointments."', icon: 'fas fa-user-circle' },
+        { id: 4, title: 'Medical Records', description: '"Provides a comprehensive record of past appointments, treatments, and vaccinations, allowing users and administrators to review previous medical interactions and ensure that all treatments are properly documented and completed."', icon: 'fas fa-notes-medical' },
+      ],
+    };
+  },
+  computed: {
+    isMobile() {
+      return window.innerWidth <= 768; // Define mobile breakpoint
+    },
+  },
   methods: {
     scrollTo(section) {
       const element = document.getElementById(section);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+      this.sidebarOpen = false; // Close sidebar on navigation
     },
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen; // Toggle sidebar visibility
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth; // Update window width
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize); // Listen for window resize events
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize); // Clean up event listener
   },
 };
 </script>
@@ -211,7 +250,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Aligns content to the top */
-  padding: 20px 80px;
+  padding: 20px 10px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   min-height: 100vh; /* Full viewport height */
@@ -434,7 +473,15 @@ h3 {
 .footer .social-link:hover {
   color: #0056b3; /* Darker blue on hover */
 }
-
+.hamburger {
+  display: none; /* Hidden by default */
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .home-content {
@@ -467,5 +514,52 @@ h3 {
   .about-card {
     margin-top: 30px;
   }
+}
+/* Show Hamburger on Mobile Screens */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* Show on mobile */
+  }
+
+  .nav {
+    display: none; /* Hide desktop nav links */
+  }
+}
+
+/* Sidebar Styles */
+.sidebar {
+  color: white;
+  background: linear-gradient(145deg, #188754, #d6f6d5);
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 1em 0.5em;
+  transition: width 0.5s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto; /* Enable vertical scrolling */
+  font-family: var(--font-family);
+}
+.sidebar.active {
+  transform: translateX(0); /* Show sidebar when active */
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
 }
 </style>

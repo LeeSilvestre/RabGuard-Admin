@@ -657,10 +657,55 @@ label input[type="checkbox"] {
 /* Additional style tweaks for responsiveness */
 @media (max-width: 980px) {
   .box-form {
-    width: 90%; /* Make the form take up more of the viewport on small screens */
+    width: 90%; 
+  }
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .box-form {
+    flex-direction: column;
+  }
+
+  .left, .right {
+    padding: 15px;
+  }
+
+  .left .logo-left,
+  .right .logo-right {
+    width: 70%;
+    max-width: 150px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
   }
 }
 
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  h1, h2 {
+    font-size: 1rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 6px;
+  }
+
+  .submit-button,
+  .cancel-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
 /* Ensure no scrolling on body or html */
 body, html {
   overflow: hidden;

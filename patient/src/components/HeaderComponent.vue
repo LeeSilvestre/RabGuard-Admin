@@ -114,9 +114,4 @@ export default {
   }
 }
 
-@media (max-width: 768px) {
-  .header-bar {
-    display: none; /* Hide the header bar on mobile screens */
-  }
-}
 </style>

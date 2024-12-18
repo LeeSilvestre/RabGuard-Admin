@@ -75,6 +75,10 @@ export default {
   z-index: 3;
 }
 
+body {
+  margin: 0;
+}
+
 .content-wrapper {
   transition: margin-left 0.5s ease, width 0.5s ease;
   overflow-x: hidden;

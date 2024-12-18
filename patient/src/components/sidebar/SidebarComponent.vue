@@ -1,198 +1,175 @@
 <script>
 import { mapState } from 'vuex';
 import SidebarLink from './SidebarLink';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { collapsed, toggleSidebar, sidebarWidth } from './state';
 
 export default {
-  props: {},
   components: { SidebarLink },
   setup() {
-    const isMobileSidebarOpen = ref(false); // Mobile-specific toggle state
+    const isMobileSidebarOpen = ref(false);
+    const isMobileScreen = ref(window.innerWidth <= 768);
 
     const toggleMobileSidebar = () => {
       isMobileSidebarOpen.value = !isMobileSidebarOpen.value;
     };
+
+    const checkScreenSize = () => {
+      isMobileScreen.value = window.innerWidth <= 768;
+      isMobileSidebarOpen.value = !isMobileScreen.value; // Sidebar always visible on desktop
+    };
+
+    onMounted(() => {
+      checkScreenSize();
+      window.addEventListener('resize', checkScreenSize);
+    });
 
     return {
       collapsed,
       toggleSidebar,
       sidebarWidth,
       isMobileSidebarOpen,
+      isMobileScreen,
       toggleMobileSidebar,
     };
   },
   computed: {
     ...mapState(['user']),
-    loggedInPatient() {
-      if (this.user && this.patients) {
-        return this.patients.find((patient) => patient.user_id === this.user.user_id) || {};
-      }
-      return {}; // Return an empty object if user or patients are not available
-    },
   },
   mounted() {
     if (!this.user) {
-      this.$store.dispatch('fetchUser'); // Dispatch action to load user
+      this.$store.dispatch('fetchUser');
     }
   },
 };
 </script>
 
 <template>
-  <!-- Sidebar Container -->
+  <!-- Mobile Toggle Button -->
+  <button
+    v-if="isMobileScreen"
+    class="mobile-toggle-btn"
+    @click="toggleMobileSidebar"
+  >
+    <i :class="isMobileSidebarOpen ? 'fas fa-times' : 'fas fa-bars'"></i>
+  </button>
+
+  <!-- Sidebar -->
   <div
     class="sidebar"
-    :class="{ 'mobile-open': isMobileSidebarOpen }"
-    :style="{ width: isMobileSidebarOpen ? '200px' : sidebarWidth }"
+    :class="{ 'mobile-hidden': !isMobileSidebarOpen && isMobileScreen }"
+    :style="{ width: collapsed ? '50px' : sidebarWidth }"
   >
-    <!-- Logo Section -->
-    <div class="logo-container" :style="{ width: collapsed ? '50px' : '200px' }">
-      <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" :style="{ width: collapsed ? '100%' : '150px' }" />
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="@/assets/rabguardlogo.png" alt="Logo" class="logo" />
     </div>
 
     <!-- User Info -->
     <div class="username-container">
-      <div class="username">
-        <p>{{ user ? user.fname || 'Guest' : 'Loading...' }} {{ user ? user.lname || '' : '' }}</p>
-        <div class="separator"></div>
-        <p>{{ user.address || '' }}</p>
-      </div>
+      <p>{{ user ? `${user.fname || 'Guest'} ${user.lname || ''}` : 'Loading...' }}</p>
+      <div class="separator"></div>
+      <p>{{ user?.address || '' }}</p>
     </div>
 
+    <div class="separator"></div>
     <!-- Sidebar Links -->
-    <div class="separator"></div>
-    <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
-    <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
-    <SidebarLink to="/request" icon="fas fa-chart-line">Request Record</SidebarLink>
-    <SidebarLink to="/vaccine" icon="fas fa-syringe">Vaccine Record</SidebarLink>
-    <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
-    <div class="separator"></div>
-
-    <!-- Logout Link -->
-    <div class="logout-link">
+    <div>
+      <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
+      <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
+      <SidebarLink to="/request" icon="fas fa-chart-line">Request Record</SidebarLink>
+      <SidebarLink to="/vaccine" icon="fas fa-syringe">Vaccine Record</SidebarLink>
+      <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
+    </div>
+<div class="separator"></div>
+    <!-- Logout -->
+    <div>
       <SidebarLink to="/login" icon="fas fa-sign-out-alt">Logout</SidebarLink>
     </div>
   </div>
-
-  <!-- Mobile Toggle Button -->
-  <button class="mobile-toggle-btn" @click="toggleMobileSidebar">
-    <i :class="isMobileSidebarOpen ? 'fas fa-times' : 'fas fa-bars'"></i>
-  </button>
 </template>
 
-<style>
+<style scoped>
 :root {
   --sidebar-bg-color: #188754;
-  --sidebar-item-hover: #188754;
-  --sidebar-item-active: #0a4d2c;
 }
 
 .sidebar {
   color: white;
-  background-color: var(--sidebar-bg-color);
+  background-color: #188754;
   position: fixed;
-  z-index: 2;
   top: 0;
   left: 0;
   bottom: 0;
-  padding: 1em 0.5em;
-  transition: width 0.5s ease, transform 0.3s ease;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto; /* Enable vertical scrolling */
-  font-family: var(--font-family);
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 1000;
 }
 
-.sidebar::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in WebKit browsers */
-}
-
-.sidebar {
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
-}
-
-.sidebar.mobile-open {
-  transform: translateX(0); /* Slide in on mobile when open */
-  overflow-y: auto; /* Add vertical scrolling for mobile view */
-}
-
-.sidebar:not(.mobile-open) {
-  transform: translateX(-100%); /* Slide out on mobile */
+.sidebar.mobile-hidden {
+  transform: translateX(-100%);
 }
 
 .logo-container {
   text-align: center;
   margin-bottom: 1rem;
-  transition: width 0.5s ease;
 }
 
 .logo {
-  height: auto;
-  transition: width 0.5s ease;
+  width: 100px;
 }
 
 .username-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.sidebar-link {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.5s;
+  font-family: var(--font-family);
 }
 
-.username p {
-  margin: 0;
-  font-size: 1.3em;
+.sidebar-link:hover {
+  background-color:  #157347;
+}
+
+.link.active {
+  background-color: var(--sidebar-item-active);
 }
 
 .separator {
   height: 2px;
   background-color: rgba(255, 255, 255, 0.2);
-  width: 100%;
+  margin: .5rem 0;
 }
 
-.collapse-icon {
-  margin-top: 1rem;
-  padding: 0.75em;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: transform 0.5s linear;
-}
 
-.rotate-180 {
-  transform: rotate(180deg);
-}
-
-/* Mobile Toggle Button */
 .mobile-toggle-btn {
   position: fixed;
-  z-index: 3;
+  z-index: 2000;
   top: 10px;
   left: 10px;
-  background: var(--sidebar-bg-color);
+  background-color: #188754;
   color: white;
   border: none;
-  padding: 0.5em;
+  padding: 0.5em 1em;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: .7em;
 }
 
-/* Media Queries for Mobile Devices */
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .sidebar {
-    width: 200px;
-    overflow-y: auto; /* Ensure scrollability on smaller screens */
-  }
-
-  .sidebar.mobile-open {
     transform: translateX(0);
   }
-
   .mobile-toggle-btn {
-    display: block;
+    display: none;
   }
 }
 </style>

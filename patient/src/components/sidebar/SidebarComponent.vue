@@ -7,33 +7,40 @@ import { collapsed, toggleSidebar, sidebarWidth } from './state';
 export default {
   components: { SidebarLink },
   setup() {
-    const isMobileSidebarOpen = ref(false);
-    const isMobileScreen = ref(window.innerWidth <= 768);
+  const isMobileSidebarOpen = ref(false);
+  const isMobileScreen = ref(window.innerWidth <= 768);
 
-    const toggleMobileSidebar = () => {
-      isMobileSidebarOpen.value = !isMobileSidebarOpen.value;
-    };
+  const toggleMobileSidebar = () => {
+    isMobileSidebarOpen.value = !isMobileSidebarOpen.value;
+  };
 
-    const checkScreenSize = () => {
-      isMobileScreen.value = window.innerWidth <= 768;
-      isMobileSidebarOpen.value = !isMobileScreen.value; // Sidebar always visible on desktop
-    };
+  const handleLinkClick = () => {
+    if (isMobileScreen.value) {
+      isMobileSidebarOpen.value = false; // Close the sidebar in mobile view
+    }
+  };
 
-    onMounted(() => {
-      checkScreenSize();
-      window.addEventListener('resize', checkScreenSize);
-    });
+  const checkScreenSize = () => {
+    isMobileScreen.value = window.innerWidth <= 768;
+    isMobileSidebarOpen.value = !isMobileScreen.value; // Sidebar always visible on desktop
+  };
 
-    return {
-      collapsed,
-      toggleSidebar,
-      sidebarWidth,
-      isMobileSidebarOpen,
-      isMobileScreen,
-      toggleMobileSidebar,
-    };
-  },
-  computed: {
+  onMounted(() => {
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+  });
+
+  return {
+    collapsed,
+    toggleSidebar,
+    sidebarWidth,
+    isMobileSidebarOpen,
+    isMobileScreen,
+    toggleMobileSidebar,
+    handleLinkClick, // Export the new method
+  };
+},
+ computed: {
     ...mapState(['user']),
   },
   mounted() {
@@ -71,15 +78,15 @@ export default {
       <div class="separator"></div>
       <p>{{ user?.address || '' }}</p>
     </div>
-
+    
     <div class="separator"></div>
     <!-- Sidebar Links -->
     <div>
-      <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt">Dashboard</SidebarLink>
-      <SidebarLink to="/profile" icon="fas fa-user">Profile</SidebarLink>
-      <SidebarLink to="/request" icon="fas fa-chart-line">Request Record</SidebarLink>
-      <SidebarLink to="/vaccine" icon="fas fa-syringe">Vaccine Record</SidebarLink>
-      <SidebarLink to="/previous" icon="fas fa-history">History</SidebarLink>
+      <SidebarLink to="/dashboard" icon="fas fa-tachometer-alt" @click="handleLinkClick">Dashboard</SidebarLink>
+      <SidebarLink to="/profile" icon="fas fa-user" @click="handleLinkClick">Profile</SidebarLink>
+      <SidebarLink to="/request" icon="fas fa-chart-line" @click="handleLinkClick">Request Record</SidebarLink>
+      <SidebarLink to="/vaccine" icon="fas fa-syringe" @click="handleLinkClick">Vaccine Record</SidebarLink>
+      <SidebarLink to="/previous" icon="fas fa-history" @click="handleLinkClick">History</SidebarLink>
     </div>
 <div class="separator"></div>
     <!-- Logout -->
@@ -161,7 +168,7 @@ export default {
   padding: 0.5em 1em;
   border-radius: 5px;
   cursor: pointer;
-  font-size: .7em;
+  font-size: .9em;
 }
 
 @media (min-width: 769px) {

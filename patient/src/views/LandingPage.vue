@@ -27,6 +27,7 @@
     <div class="sidebar" :class="{ 'active': sidebarOpen }" v-if="isMobile">
       <button class="close-btn" @click="toggleSidebar">&times;</button>
       <router-link to="/" @click="scrollTo('home')">Home</router-link>
+      <router-link to="/" @click="scrollTo('home')">Home</router-link>
       <router-link to="/" @click="scrollTo('features')">Features</router-link>
       <router-link to="/" @click="scrollTo('about-section')">About Us</router-link>
       <router-link to="/login" class="register-btn">Register</router-link>
@@ -528,21 +529,18 @@ h3 {
 
 /* Sidebar Styles */
 .sidebar {
-  color: white;
-  background: linear-gradient(145deg, #188754, #d6f6d5);
   position: fixed;
-  z-index: 2;
   top: 0;
   left: 0;
-  bottom: 0;
-  padding: 1em 0.5em;
-  transition: width 0.5s ease, transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto; /* Enable vertical scrolling */
-  font-family: var(--font-family);
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%); /* Sidebar hidden by default */
 }
+
 .sidebar.active {
   transform: translateX(0); /* Show sidebar when active */
 }
